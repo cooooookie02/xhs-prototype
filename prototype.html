@@ -195,36 +195,24 @@ body {
   text-align: center; margin: 4px 0 12px; line-height: 1.7;
 }
 
-/* 行为提示卡：客户查看笔记 */
+/* 行为提示：客户查看笔记（横线分隔样式） */
 .behavior-tip {
-  display: flex; align-items: center; gap: 10px;
-  background: #fffbf0; border: 1px solid #ffe58f;
-  border-radius: 8px; padding: 8px 12px;
+  display: flex; align-items: center; gap: 0;
   margin: 4px 0 12px; font-size: 12px;
   animation: fadeSlideIn 0.4s ease;
 }
 @keyframes fadeSlideIn {
-  from { opacity: 0; transform: translateY(-6px); }
+  from { opacity: 0; transform: translateY(-4px); }
   to   { opacity: 1; transform: translateY(0); }
 }
-.btip-icon {
-  width: 36px; height: 36px; border-radius: 5px; flex-shrink: 0;
-  object-fit: cover; overflow: hidden;
-  background: linear-gradient(135deg, #ffecd2, #fcb69f);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
+.btip-line {
+  flex: 1; height: 1px; background: #ff4d4f;
 }
-.btip-content { flex: 1; min-width: 0; }
-.btip-label {
-  font-size: 11px; color: #fa8c16; font-weight: 600;
-  display: flex; align-items: center; gap: 4px; margin-bottom: 2px;
+.btip-text {
+  flex-shrink: 0; padding: 0 10px;
+  font-size: 12px; color: #ff4d4f; white-space: nowrap;
+  line-height: 20px;
 }
-.btip-label svg { flex-shrink: 0; }
-.btip-title {
-  font-size: 12px; color: #1a1a1a; line-height: 1.5;
-  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.btip-time { font-size: 11px; color: #bbb; flex-shrink: 0; }
 
 /* 聊天工具栏 */
 .chat-toolbar {
@@ -316,11 +304,21 @@ body {
 .portrait-sec { border-bottom: 1px solid #f0f0f0; }
 .portrait-hd {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 10px 16px; cursor: pointer; user-select: none;
+  padding: 10px 16px; cursor: default; user-select: none;
 }
 .portrait-hd:hover { background: #fafafa; }
 .portrait-title { font-size: 13px; font-weight: 600; color: #1a1a1a; display: flex; align-items: center; gap: 6px; }
 .new-dot { background: #ff2442; color: #fff; font-size: 9px; font-weight: 700; padding: 1px 4px; border-radius: 5px; letter-spacing: 0.3px; }
+
+/* 收起按钮（对齐截图中广告归因/客资信息的方框箭头样式） */
+.collapse-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 22px;
+  border: 1px solid #e0e0e0; border-radius: 4px;
+  cursor: pointer; color: #bbb; flex-shrink: 0;
+  background: #fff; transition: border-color 0.15s, color 0.15s;
+}
+.collapse-btn:hover { border-color: #aaa; color: #666; }
 .portrait-body { padding: 2px 16px 12px; }
 
 /* 决策阶段 */
@@ -363,6 +361,19 @@ body {
 .hint-sm { font-size: 11px; color: #bbb; line-height: 17px; }
 .sec-sub-label { font-size: 11px; color: #999; min-width: 52px; }
 .sec-sub-val { font-size: 11px; color: #1a1a1a; }
+
+/* 可编辑字段（双击激活） */
+.editable-field {
+  font-size: 12px; color: #1a1a1a; cursor: text;
+  border-bottom: 1px dashed transparent; padding-bottom: 1px;
+  transition: border-color 0.15s;
+}
+.editable-field:hover { border-bottom-color: #bbb; }
+.editable-field:focus {
+  outline: none; border-bottom-color: #1677ff;
+  color: #1677ff;
+}
+/* 收起按钮（对齐截图中广告归因/客资信息的方框箭头样式）*/
 </style>
 </head>
 <body>
@@ -643,17 +654,11 @@ body {
 
       <div class="msg-time-center">小红薯6958F37D 2026-04-10 10:55:03</div>
 
-      <!-- 行为提示：客户查看笔记 -->
+      <!-- 行为提示：客户查看笔记（横线样式） -->
       <div class="behavior-tip">
-        <div class="btip-icon">🏕️</div>
-        <div class="btip-content">
-          <div class="btip-label">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fa8c16" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-            客户刚刚查看了笔记
-          </div>
-          <div class="btip-title">【五一云南亲子游】3天2夜民宿精选·大理洱海边·一家三口超值攻略</div>
-        </div>
-        <div class="btip-time">10:55</div>
+        <div class="btip-line"></div>
+        <div class="btip-text">客户查看了笔记「【五一云南亲子游】3天2夜民宿精选·大理洱海边·一家三口超值攻略」😊</div>
+        <div class="btip-line"></div>
       </div>
 
     </div>
@@ -699,7 +704,12 @@ body {
           <div class="uc-avatar" style="background:#f5a623;">⚠️</div>
           <div>
             <div class="uc-name">小红薯6958F37D</div>
-            <div><span class="uc-badge">粉丝</span></div>
+            <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
+              <span class="uc-badge">非粉丝</span>
+              <span class="uc-badge">女</span>
+              <span class="uc-badge">28岁</span>
+              <span class="uc-badge old-client-badge" style="background:#fff0f0;color:#ff2442;cursor:pointer;display:inline-flex;align-items:center;gap:2px;" onclick="showHistory()">老客 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </div>
           </div>
         </div>
         <button class="follow-btn">+ 关注</button>
@@ -720,79 +730,114 @@ body {
       </div>
     </div>
 
-    <!-- ★ 客户画像（新增）★ -->
-    <div class="portrait-sec">
-      <div class="portrait-hd" onclick="tog('portrait')">
-        <div class="portrait-title">
-          客户画像
-          <span class="new-dot">NEW</span>
+    <!-- 需求详情 -->
+    <div class="sec">
+      <div class="sec-hd" style="cursor:default;">
+        <span class="sec-title">需求详情</span>
+        <div class="collapse-btn" onclick="tog('needs')" title="收起/展开">
+          <svg id="needs-arr" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
         </div>
-        <svg id="portrait-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" class="sec-arrow"><polyline points="18 15 12 9 6 15"/></svg>
       </div>
-      <div class="portrait-body" id="portrait-body">
+      <div class="sec-body" id="needs-body">
 
-        <div class="fr" style="padding-top:5px;">
-          <span class="fl">决策阶段</span>
-          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:0;">
-            <div style="display:flex;align-items:center;gap:6px;">
-              <div class="stage-pill"><span class="stage-dot"></span>意向期</div>
-              <span class="stage-days">已停留 3 天</span>
-            </div>
-          </div>
-        </div>
-        <div class="fdivider"></div>
-
-        <div class="fr">
-          <span class="fl">价格敏感度</span>
-          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:2px;">
-            <span class="ptag ptag-red">高</span>
-            <span class="hint-sm">3次主动询价 · 提及竞品价格</span>
-          </div>
-        </div>
-        <div class="fdivider"></div>
-
-        <div class="fr">
-          <span class="fl">产品偏好</span>
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl" style="padding-top:2px;">咨询产品</span>
           <div class="fv">
-            <span class="ptag ptag-blue">亲子度假</span>
-            <span class="ptag ptag-blue">民宿</span>
+            <span class="ntag" style="background:#f0f7ff;border-color:#91caff;color:#1677ff;">五一云南亲子游3天2夜</span>
           </div>
         </div>
         <div class="fdivider"></div>
 
         <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:1px;">关键需求</span>
-          <div class="fv" style="flex-wrap:wrap;align-items:flex-start;">
-            <span class="ntag"><span class="ntag-key">出行日期</span>五一</span>
-            <span class="ntag"><span class="ntag-key">目的地</span>云南</span>
-            <span class="ntag"><span class="ntag-key">人数</span>一家三口</span>
-            <span class="ntag"><span class="ntag-key">预算</span>人均3000以内</span>
-            <span class="ntag"><span class="ntag-key">城市</span>上海</span>
+          <span class="fl" style="padding-top:2px;">使用场景</span>
+          <div class="fv" style="flex-wrap:wrap;">
+            <span class="ntag"><span class="ntag-key">节假日出行</span></span>
+            <span class="ntag"><span class="ntag-key">亲子家庭</span></span>
           </div>
         </div>
         <div class="fdivider"></div>
 
         <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:1px;">最佳联系</span>
-          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:3px;">
-            <div class="time-row">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              工作日 20:00–21:00
-              <span class="time-note">均响应&lt;5min</span>
+          <span class="fl" style="padding-top:2px;">预算范围</span>
+          <div class="fv">
+            <span class="editable-field" ondblclick="startEdit(this)" title="双击编辑">人均 3000 以内</span>
+          </div>
+        </div>
+        <div class="fdivider"></div>
+
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl" style="padding-top:2px;">行为轨迹</span>
+          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:4px;">
+            <div style="display:flex;gap:6px;align-items:center;font-size:12px;">
+              <span style="color:#999;min-width:64px;">最近活跃</span>
+              <span style="color:#1a1a1a;">2026-04-14 10:52</span>
             </div>
-            <div class="time-row">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              周末 10:00–11:00
+            <div style="display:flex;gap:6px;align-items:flex-start;font-size:12px;">
+              <span style="color:#999;min-width:64px;">活跃时段</span>
+              <div style="display:flex;flex-direction:column;gap:2px;">
+                <div class="time-row">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  工作日 20:00–22:00
+                </div>
+                <div class="time-row">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  周末 10:00–12:00
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 沟通进展 -->
+    <div class="sec">
+      <div class="sec-hd" style="cursor:default;">
+        <span class="sec-title">沟通进展</span>
+        <div class="collapse-btn" onclick="tog('progress')" title="收起/展开">
+          <svg id="progress-arr" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"/></svg>
+        </div>
+      </div>
+      <div class="sec-body" id="progress-body">
+
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl" style="padding-top:2px;">内容总结</span>
+          <div class="fv" style="font-size:12px;color:#1a1a1a;line-height:1.7;">
+            客户计划五一带家人去云南旅游，一家三口，预算人均3000以内，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。
+          </div>
+        </div>
+        <div class="fdivider"></div>
+
+        <div class="fr">
+          <span class="fl">当前阶段</span>
+          <div class="fv">
+            <div class="stage-pill"><span class="stage-dot"></span>意向期</div>
+            <span class="stage-days" style="margin-left:6px;">已停留 3 天</span>
           </div>
         </div>
         <div class="fdivider"></div>
 
         <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:1px;">核心顾虑</span>
+          <span class="fl" style="padding-top:2px;">核心顾虑</span>
           <div class="fv" style="flex-direction:column;align-items:flex-start;gap:4px;">
             <span class="concern-tag">价格顾虑</span>
             <div class="concern-quote">「能不能再便宜点，另一家更便宜」</div>
+          </div>
+        </div>
+        <div class="fdivider"></div>
+
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl" style="padding-top:2px;">风险提醒</span>
+          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:4px;">
+            <div style="display:flex;align-items:center;gap:5px;">
+              <span style="width:6px;height:6px;border-radius:50%;background:#fa8c16;flex-shrink:0;"></span>
+              <span style="font-size:12px;color:#fa8c16;">主动提及竞品</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:5px;">
+              <span style="width:6px;height:6px;border-radius:50%;background:#ff4d4f;flex-shrink:0;"></span>
+              <span style="font-size:12px;color:#ff4d4f;">沉默超 3 天，流失风险高</span>
+            </div>
           </div>
         </div>
 
@@ -910,9 +955,79 @@ body {
 
   </div>
 
+<!-- 历史成交弹层 -->
+<div id="history-mask" onclick="hideHistory()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.3);z-index:1000;"></div>
+<div id="history-panel" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:420px;background:#fff;border-radius:10px;box-shadow:0 8px 32px rgba(0,0,0,0.18);z-index:1001;font-family:-apple-system,'PingFang SC',sans-serif;overflow:hidden;">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px 12px;border-bottom:1px solid #f0f0f0;">
+    <span style="font-size:14px;font-weight:600;color:#1a1a1a;">历史成交记录</span>
+    <span onclick="hideHistory()" style="cursor:pointer;color:#bbb;font-size:18px;line-height:1;">×</span>
+  </div>
+  <div style="padding:12px 18px 6px;">
+    <div style="font-size:12px;color:#999;margin-bottom:10px;">共 2 笔成交记录</div>
+
+    <!-- 成交记录1 -->
+    <div style="border:1px solid #f0f0f0;border-radius:8px;padding:12px 14px;margin-bottom:10px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+        <span style="font-size:13px;font-weight:500;color:#1a1a1a;">【五一云南亲子游】3天2夜大理民宿套餐</span>
+        <span style="font-size:13px;font-weight:600;color:#ff2442;white-space:nowrap;margin-left:12px;">¥2,680</span>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <span style="font-size:12px;color:#999;">成交时间</span>
+        <span style="font-size:12px;color:#1a1a1a;">2025-10-03</span>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:4px;">
+        <span style="font-size:12px;color:#999;">订单状态</span>
+        <span style="font-size:12px;color:#389e0d;">已完成</span>
+      </div>
+    </div>
+
+    <!-- 成交记录2 -->
+    <div style="border:1px solid #f0f0f0;border-radius:8px;padding:12px 14px;margin-bottom:14px;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;">
+        <span style="font-size:13px;font-weight:500;color:#1a1a1a;">【暑期特惠】云南丽江双人游5天4夜</span>
+        <span style="font-size:13px;font-weight:600;color:#ff2442;white-space:nowrap;margin-left:12px;">¥3,980</span>
+      </div>
+      <div style="display:flex;gap:16px;">
+        <span style="font-size:12px;color:#999;">成交时间</span>
+        <span style="font-size:12px;color:#1a1a1a;">2024-07-18</span>
+      </div>
+      <div style="display:flex;gap:16px;margin-top:4px;">
+        <span style="font-size:12px;color:#999;">订单状态</span>
+        <span style="font-size:12px;color:#389e0d;">已完成</span>
+      </div>
+    </div>
+  </div>
+</div>
+
 </div>
 
 <script>
+function startEdit(el) {
+  el.contentEditable = 'true';
+  el.focus();
+  // 光标移到末尾
+  const range = document.createRange();
+  range.selectNodeContents(el);
+  range.collapse(false);
+  window.getSelection().removeAllRanges();
+  window.getSelection().addRange(range);
+  el.addEventListener('blur', function onBlur() {
+    el.contentEditable = 'false';
+    el.removeEventListener('blur', onBlur);
+  }, { once: true });
+  el.addEventListener('keydown', function onKey(e) {
+    if (e.key === 'Enter') { e.preventDefault(); el.blur(); }
+    if (e.key === 'Escape') { el.blur(); }
+  }, { once: true });
+}
+function showHistory() {
+  document.getElementById('history-mask').style.display = 'block';
+  document.getElementById('history-panel').style.display = 'block';
+}
+function hideHistory() {
+  document.getElementById('history-mask').style.display = 'none';
+  document.getElementById('history-panel').style.display = 'none';
+}
 function tog(id) {
   const body = document.getElementById(id+'-body');
   const arr  = document.getElementById(id+'-arr');
