@@ -195,6 +195,19 @@ body {
   text-align: center; margin: 4px 0 12px; line-height: 1.7;
 }
 
+/* 行为提示组 */
+.btip-group { display:flex; flex-direction:column; }
+.btip-toggle {
+  display: flex; align-items: center; gap: 6px;
+  margin: 2px 0 4px; cursor: pointer;
+}
+.btip-toggle-text {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; color: #bbb; white-space: nowrap;
+  user-select: none;
+}
+.btip-toggle-text:hover { color: #999; }
+
 /* 行为提示：客户查看笔记（横线分隔样式） */
 .behavior-tip {
   display: flex; align-items: center; gap: 0;
@@ -655,11 +668,46 @@ body {
 
       <div class="msg-time-center">小红薯6958F37D 2026-04-10 10:55:03</div>
 
-      <!-- 行为提示：客户查看笔记（横线样式） -->
-      <div class="behavior-tip">
-        <div class="btip-line"></div>
-        <div class="btip-text">客户查看了笔记「【五一云南亲子游】3天2夜民宿精选·大理洱海边·一家三口超值攻略」😊</div>
-        <div class="btip-line"></div>
+      <!-- 行为提示组：多条 toast 超3条自动收起 -->
+      <div class="btip-group" id="btip-group-1">
+        <!-- 前3条始终展示 -->
+        <div class="behavior-tip">
+          <div class="btip-line"></div>
+          <div class="btip-text">客户查看了笔记「【五一云南亲子游】3天2夜民宿精选·大理洱海边·一家三口超值攻略」</div>
+          <div class="btip-line"></div>
+        </div>
+        <div class="behavior-tip">
+          <div class="btip-line"></div>
+          <div class="btip-text">客户收藏了笔记「云南亲子游避坑指南·这些坑我替你踩了」</div>
+          <div class="btip-line"></div>
+        </div>
+        <div class="behavior-tip">
+          <div class="btip-line"></div>
+          <div class="btip-text">客户点赞了笔记「大理民宿测评·带娃住这里真的太对了」</div>
+          <div class="btip-line"></div>
+        </div>
+        <!-- 第4条起默认折叠 -->
+        <div class="btip-extra" id="btip-extra-1" style="display:none;">
+          <div class="behavior-tip">
+            <div class="btip-line"></div>
+            <div class="btip-text">客户查看了笔记「五一云南自驾游路线·带娃最全攻略」</div>
+            <div class="btip-line"></div>
+          </div>
+          <div class="behavior-tip">
+            <div class="btip-line"></div>
+            <div class="btip-text">客户收藏了笔记「洱海民宿TOP10·亲子必住清单」</div>
+            <div class="btip-line"></div>
+          </div>
+        </div>
+        <!-- 展开/收起按钮 -->
+        <div class="btip-toggle" id="btip-toggle-1" onclick="toggleBtip('1')">
+          <div class="btip-line" style="flex:1;"></div>
+          <span class="btip-toggle-text">
+            <svg id="btip-arr-1" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .2s;"><polyline points="6 9 12 15 18 9"/></svg>
+            还有 2 条行为记录
+          </span>
+          <div class="btip-line" style="flex:1;"></div>
+        </div>
       </div>
 
     </div>
@@ -997,6 +1045,19 @@ body {
 
 <script>
 // 切换内容总结空态/已总结态
+function toggleBtip(id) {
+  const extra = document.getElementById('btip-extra-' + id);
+  const arr   = document.getElementById('btip-arr-' + id);
+  const label = document.querySelector('#btip-toggle-' + id + ' .btip-toggle-text');
+  const isHidden = extra.style.display === 'none';
+  extra.style.display = isHidden ? 'flex' : 'none';
+  extra.style.flexDirection = 'column';
+  arr.style.transform = isHidden ? 'rotate(180deg)' : '';
+  // 计算折叠条数
+  const count = extra.querySelectorAll('.behavior-tip').length;
+  label.innerHTML = (isHidden ? '收起' : '还有 ' + count + ' 条行为记录') +
+    ' <svg id="btip-arr-' + id + '" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .2s;transform:' + (isHidden ? 'rotate(180deg)' : '') + '"><polyline points="6 9 12 15 18 9"/></svg>';
+}
 function setSummaryEmpty(empty) {
   document.getElementById('summary-empty').style.display = empty ? 'block' : 'none';
   document.getElementById('summary-text').style.display = empty ? 'none' : 'block';
