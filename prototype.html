@@ -3,618 +3,929 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>小红书私信通 · 右侧边栏原型</title>
+<title>小红书私信通 · 客户画像原型</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    background: #f5f5f5;
-    font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 24px;
-    min-height: 100vh;
-  }
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  background: #e8e8e8;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a1a;
+}
 
-  /* ── 右侧边栏容器 ── */
-  .sidebar {
-    width: 340px;
-    background: #fff;
-    border-left: 1px solid #ebebeb;
-    height: 100vh;
-    overflow-y: auto;
-    font-size: 12px;
-    color: #333;
-  }
-  .sidebar::-webkit-scrollbar { width: 4px; }
-  .sidebar::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 2px; }
+/* ── 整体窗口 ── */
+.app {
+  width: 1380px;
+  height: 860px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+}
 
-  /* ── 顶部标签栏 ── */
-  .sidebar-header {
-    padding: 12px 16px 0;
-    border-bottom: 1px solid #f0f0f0;
-  }
-  .sidebar-header h2 {
-    font-size: 14px;
-    font-weight: 600;
-    color: #111;
-    padding-bottom: 10px;
-  }
+/* ══ 左侧图标导航 ══ */
+.nav {
+  width: 60px;
+  background: #fff;
+  border-right: 1px solid #e8e8e8;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 10px;
+  flex-shrink: 0;
+}
+.nav-avatar {
+  width: 36px; height: 36px; border-radius: 8px;
+  overflow: hidden; margin-bottom: 8px; flex-shrink: 0;
+  background: #f5a623;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px; color: #fff;
+}
+.nav-item {
+  width: 100%; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 10px 0; cursor: pointer; color: #999; gap: 3px;
+}
+.nav-item:hover { color: #555; }
+.nav-item.active { color: #ff2442; }
+.nav-icon { font-size: 20px; line-height: 1; }
+.nav-label { font-size: 10px; }
+.nav-spacer { flex: 1; }
+.nav-bottom {
+  width: 100%; display: flex; flex-direction: column;
+  align-items: center; padding-bottom: 10px; gap: 0;
+}
 
-  /* ── 通用 Section ── */
-  .section {
-    border-bottom: 1px solid #f0f0f0;
-  }
-  .section-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    cursor: pointer;
-    user-select: none;
-  }
-  .section-header:hover { background: #fafafa; }
-  .section-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #111;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .section-arrow {
-    width: 12px;
-    height: 12px;
-    color: #999;
-    transition: transform 0.2s;
-    flex-shrink: 0;
-  }
-  .section-arrow.collapsed { transform: rotate(-90deg); }
-  .section-body { padding: 0 16px 12px; }
-  .section-body.hidden { display: none; }
+/* ══ 会话列表 ══ */
+.sessions {
+  width: 272px;
+  border-right: 1px solid #e8e8e8;
+  display: flex; flex-direction: column;
+  flex-shrink: 0;
+  background: #fff;
+}
+.sessions-search {
+  padding: 10px 12px 8px;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.search-input-wrap {
+  flex: 1; display: flex; align-items: center; gap: 6px;
+  background: #f5f5f5; border-radius: 6px; padding: 6px 10px;
+}
+.search-input-wrap input {
+  border: none; background: transparent; font-size: 12px;
+  color: #333; outline: none; flex: 1; width: 0;
+}
+.search-input-wrap input::placeholder { color: #bbb; }
+.filter-btn { color: #aaa; cursor: pointer; flex-shrink: 0; }
 
-  /* ── 字段行 ── */
-  .field-row {
-    display: flex;
-    align-items: flex-start;
-    padding: 5px 0;
-    gap: 8px;
-  }
-  .field-label {
-    font-size: 12px;
-    color: #999;
-    white-space: nowrap;
-    min-width: 72px;
-    line-height: 20px;
-    flex-shrink: 0;
-  }
-  .field-value {
-    font-size: 12px;
-    color: #333;
-    line-height: 20px;
-    word-break: break-all;
-    flex: 1;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 4px;
-  }
+.sessions-tabs {
+  display: flex; padding: 0 12px;
+  border-bottom: 1px solid #f0f0f0;
+}
+.stab {
+  padding: 8px 10px 7px; font-size: 13px; color: #888;
+  cursor: pointer; border-bottom: 2px solid transparent;
+  white-space: nowrap; line-height: 1;
+}
+.stab.active { color: #1a1a1a; border-bottom-color: #1a1a1a; font-weight: 500; }
 
-  /* ── 用户卡片 ── */
-  .user-card { padding: 14px 16px 12px; border-bottom: 1px solid #f0f0f0; }
-  .user-card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .user-info { display: flex; align-items: center; gap: 10px; }
-  .avatar {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #ff6b9d, #ff2442);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px; color: #fff; font-weight: 600; flex-shrink: 0;
-  }
-  .user-name { font-size: 14px; font-weight: 600; color: #111; }
-  .user-tag {
-    display: inline-block;
-    background: #fff0f3;
-    color: #ff2442;
-    font-size: 11px;
-    padding: 1px 6px;
-    border-radius: 10px;
-    margin-top: 2px;
-  }
-  .follow-btn {
-    background: #fff;
-    border: 1px solid #ddd;
-    color: #666;
-    font-size: 12px;
-    padding: 4px 12px;
-    border-radius: 14px;
-    cursor: pointer;
-    display: flex; align-items: center; gap: 4px;
-  }
-  .follow-btn:hover { border-color: #ff2442; color: #ff2442; }
-  .user-meta { display: flex; flex-direction: column; gap: 4px; }
-  .meta-row { display: flex; align-items: center; gap: 6px; }
-  .meta-label { font-size: 11px; color: #999; min-width: 52px; }
-  .meta-value { font-size: 11px; color: #555; }
-  .meta-link { font-size: 11px; color: #ff2442; text-decoration: none; }
-  .meta-link:hover { text-decoration: underline; }
-  .location-tag {
-    display: inline-flex; align-items: center; gap: 2px;
-    font-size: 11px; color: #666;
-  }
+.session-list { flex: 1; overflow-y: auto; }
+.session-list::-webkit-scrollbar { width: 0; }
 
-  /* ── 客户画像模块（新增） ── */
-  .portrait-section { border-bottom: 1px solid #f0f0f0; }
-  .portrait-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    cursor: pointer;
-  }
-  .portrait-header:hover { background: #fafafa; }
-  .portrait-title {
-    font-size: 13px;
-    font-weight: 600;
-    color: #111;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .new-badge {
-    background: #ff2442;
-    color: #fff;
-    font-size: 10px;
-    font-weight: 500;
-    padding: 1px 5px;
-    border-radius: 8px;
-    line-height: 15px;
-  }
-  .portrait-body { padding: 2px 16px 14px; }
+.sitem {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px; cursor: pointer;
+  border-bottom: 1px solid #f8f8f8;
+  position: relative;
+}
+.sitem:hover { background: #f9f9f9; }
+.sitem.active { background: #f0f0f0; }
 
-  /* 决策阶段 */
-  .stage-row {
-    display: flex;
-    align-items: center;
-    padding: 6px 0 4px;
-    gap: 8px;
-  }
-  .stage-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    background: #fff7ed;
-    color: #f97316;
-    border: 1px solid #fed7aa;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 12px;
-  }
-  .stage-dot {
-    width: 6px; height: 6px;
-    background: #f97316;
-    border-radius: 50%;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  .stage-days {
-    font-size: 11px;
-    color: #999;
-  }
+.sitem-avatar {
+  width: 40px; height: 40px; border-radius: 50%; flex-shrink: 0;
+  object-fit: cover; background: #ddd;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; color: #888;
+}
+.sitem-main { flex: 1; min-width: 0; }
+.sitem-row1 { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 2px; }
+.sitem-name { font-size: 13px; font-weight: 500; color: #1a1a1a; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 130px; }
+.sitem-time { font-size: 11px; color: #bbb; flex-shrink: 0; }
+.sitem-row2 { display: flex; align-items: center; gap: 4px; min-height: 18px; }
+.sitem-preview { font-size: 12px; color: #999; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
 
-  /* tag 样式 */
-  .tag {
-    display: inline-flex;
-    align-items: center;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 10px;
-    line-height: 17px;
-  }
-  .tag-red { background: #fff0f3; color: #ff2442; border: 1px solid #ffd6de; }
-  .tag-blue { background: #f0f5ff; color: #4080ff; border: 1px solid #d0e0ff; }
-  .tag-gray { background: #f5f5f5; color: #666; border: 1px solid #e8e8e8; }
-  .tag-green { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+/* 状态标签 */
+.stag { display: inline-flex; align-items: center; gap: 2px; font-size: 11px; padding: 1px 6px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
+.stag-blue { background: #e8f3ff; color: #1677ff; }
+.stag-gray { background: #f0f0f0; color: #666; }
+.stag-green { background: #e6f7e6; color: #389e0d; }
+.stag-orange { background: #fff7e6; color: #fa8c16; }
+/* 意向等级标签 */
+.stag-hot { background: #ff4d4f; color: #fff; }
+.stag-warm { background: #ff7a00; color: #fff; }
+.stag-cold { background: #1677ff; color: #fff; }
 
-  /* 关键需求 tag */
-  .need-tag {
-    display: inline-flex;
-    align-items: center;
-    font-size: 11px;
-    background: #f8f8f8;
-    color: #555;
-    border: 1px solid #e8e8e8;
-    padding: 2px 7px;
-    border-radius: 4px;
-    line-height: 17px;
-    margin-bottom: 2px;
-  }
-  .need-tag span { color: #999; margin-right: 2px; }
+/* ══ 聊天主区 ══ */
+.chat {
+  flex: 1; display: flex; flex-direction: column;
+  border-right: 1px solid #e8e8e8; min-width: 0;
+  background: #fff;
+}
 
-  /* 价格敏感度 */
-  .sensitivity-row {
-    display: flex;
-    align-items: flex-start;
-    padding: 5px 0;
-    gap: 8px;
-  }
-  .sensitivity-hint {
-    font-size: 11px;
-    color: #999;
-    line-height: 17px;
-    margin-top: 2px;
-  }
-  .sensitivity-dot { color: #ddd; margin: 0 3px; }
+.chat-header {
+  padding: 10px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 52px;
+}
+.chat-header-left { display: flex; align-items: center; gap: 10px; }
+.chat-uname { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+.chat-stag { display: inline-flex; align-items: center; background: #fff8e6; color: #fa8c16; border: 1px solid #ffd591; font-size: 11px; padding: 1px 7px; border-radius: 3px; font-weight: 500; }
+.chat-header-icons { display: flex; gap: 6px; align-items: center; }
+.hicon { width: 30px; height: 30px; border-radius: 6px; border: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #888; }
+.hicon:hover { background: #f5f5f5; }
 
-  /* 核心顾虑 */
-  .concern-quote {
-    margin-top: 4px;
-    padding: 5px 8px;
-    background: #fafafa;
-    border-left: 2px solid #e0e0e0;
-    border-radius: 0 4px 4px 0;
-    font-size: 11px;
-    color: #888;
-    line-height: 17px;
-    font-style: italic;
-  }
+.chat-messages {
+  flex: 1; overflow-y: auto; padding: 20px 24px;
+  background: #fff; display: flex; flex-direction: column; gap: 0;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: #e0e0e0; border-radius: 2px; }
 
-  /* 时间段 */
-  .time-slot {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    color: #555;
-  }
-  .time-icon { font-size: 11px; }
+.msg-time-center {
+  text-align: center; font-size: 11px; color: #bbb;
+  margin: 8px 0;
+}
+.msg-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 12px; }
+.msg-row.right { flex-direction: row-reverse; }
 
-  /* ── 广告归因 ── */
-  .ad-attribution { padding: 0; }
-  .copy-btn {
-    width: 14px; height: 14px;
-    color: #bbb; cursor: pointer; flex-shrink: 0;
-    margin-left: 4px;
-  }
-  .copy-btn:hover { color: #ff2442; }
-  .id-value {
-    font-size: 11px;
-    color: #555;
-    word-break: break-all;
-    display: flex;
-    align-items: center;
-  }
+.msg-avatar-sm {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; color: #fff; font-weight: 600;
+  margin-top: 2px;
+}
+.msg-col { display: flex; flex-direction: column; max-width: 60%; }
+.msg-sender { font-size: 11px; color: #bbb; margin-bottom: 3px; }
+.msg-row.right .msg-sender { text-align: right; }
 
-  /* ── 客资信息 ── */
-  .eye-btn {
-    width: 14px; height: 14px;
-    color: #bbb; cursor: pointer; margin-left: 4px; flex-shrink: 0;
-  }
-  .phone-value { letter-spacing: 0.5px; }
-  .tag-select {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    background: #fff0f3;
-    color: #ff2442;
-    font-size: 12px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-    border: 1px solid #ffd6de;
-  }
+.bubble {
+  padding: 9px 13px; font-size: 13px; line-height: 1.6; color: #1a1a1a;
+  border-radius: 2px 10px 10px 10px; background: #f5f5f5;
+  word-break: break-word; display: inline-block;
+}
+.msg-row.right .bubble { background: #f0f7ff; border-radius: 10px 2px 10px 10px; }
 
-  /* ── 信息来源 ── */
-  .source-section { padding: 0; }
-  .source-link { color: #4080ff; font-size: 12px; text-decoration: none; }
-  .source-link:hover { text-decoration: underline; }
+.bubble-img {
+  width: 120px; height: 120px; border-radius: 6px; object-fit: cover;
+  background: #f5f5f5; display: flex; align-items: center; justify-content: center;
+  overflow: hidden; cursor: pointer;
+}
+.bubble-img img { width: 100%; height: 100%; object-fit: cover; }
 
-  /* divider */
-  .field-divider {
-    height: 1px;
-    background: #f5f5f5;
-    margin: 2px 0;
-  }
+.sys-msg {
+  background: #f7f7f7; border-radius: 6px;
+  padding: 8px 14px; font-size: 12px; color: #888;
+  text-align: center; margin: 4px 0 12px; line-height: 1.7;
+}
 
-  /* 折叠箭头 SVG */
-  .chevron {
-    width: 12px; height: 12px;
-    flex-shrink: 0;
-    transition: transform 0.2s;
-  }
-  .chevron.up { transform: rotate(0deg); }
-  .chevron.down { transform: rotate(-90deg); }
+/* 行为提示卡：客户查看笔记 */
+.behavior-tip {
+  display: flex; align-items: center; gap: 10px;
+  background: #fffbf0; border: 1px solid #ffe58f;
+  border-radius: 8px; padding: 8px 12px;
+  margin: 4px 0 12px; font-size: 12px;
+  animation: fadeSlideIn 0.4s ease;
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.btip-icon {
+  width: 36px; height: 36px; border-radius: 5px; flex-shrink: 0;
+  object-fit: cover; overflow: hidden;
+  background: linear-gradient(135deg, #ffecd2, #fcb69f);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+}
+.btip-content { flex: 1; min-width: 0; }
+.btip-label {
+  font-size: 11px; color: #fa8c16; font-weight: 600;
+  display: flex; align-items: center; gap: 4px; margin-bottom: 2px;
+}
+.btip-label svg { flex-shrink: 0; }
+.btip-title {
+  font-size: 12px; color: #1a1a1a; line-height: 1.5;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.btip-time { font-size: 11px; color: #bbb; flex-shrink: 0; }
+
+/* 聊天工具栏 */
+.chat-toolbar {
+  border-top: 1px solid #f0f0f0; padding: 8px 16px;
+  display: flex; align-items: center; gap: 2px;
+}
+.ticon { width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #888; border-radius: 4px; }
+.ticon:hover { background: #f5f5f5; color: #555; }
+
+.chat-input-area { padding: 4px 16px 12px; display: flex; align-items: flex-end; gap: 10px; }
+.chat-textarea {
+  flex: 1; border: none; outline: none; resize: none;
+  font-size: 13px; color: #1a1a1a; font-family: inherit;
+  line-height: 1.6; min-height: 52px; max-height: 100px;
+  background: transparent; padding: 0;
+}
+.chat-textarea::placeholder { color: #bbb; font-size: 12px; }
+.send-btn {
+  background: #1677ff; color: #fff; border: none;
+  padding: 7px 18px; border-radius: 6px; font-size: 13px;
+  cursor: pointer; font-family: inherit; flex-shrink: 0;
+  height: 34px; display: flex; align-items: center;
+}
+.send-btn:hover { background: #0958d9; }
+
+/* ══ 右侧边栏 ══ */
+.sidebar {
+  width: 320px; flex-shrink: 0; overflow-y: auto;
+  background: #fff; font-size: 12px;
+}
+.sidebar::-webkit-scrollbar { width: 4px; }
+.sidebar::-webkit-scrollbar-thumb { background: #e8e8e8; border-radius: 2px; }
+
+.sidebar-top {
+  padding: 14px 16px 12px; display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid #f0f0f0;
+}
+.sidebar-top-title { font-size: 14px; font-weight: 600; color: #1a1a1a; }
+
+/* 用户卡片 */
+.user-card { padding: 14px 16px 12px; border-bottom: 1px solid #f0f0f0; }
+.uc-row1 { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 10px; }
+.uc-left { display: flex; align-items: flex-start; gap: 10px; }
+.uc-avatar { width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 15px; color: #fff; }
+.uc-name { font-size: 14px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px; }
+.uc-badge { display: inline-block; background: #f5f5f5; color: #666; font-size: 11px; padding: 1px 7px; border-radius: 3px; }
+.follow-btn { display: inline-flex; align-items: center; gap: 3px; background: #fff; border: 1px solid #ddd; color: #555; font-size: 12px; padding: 4px 12px; border-radius: 5px; cursor: pointer; white-space: nowrap; }
+.follow-btn:hover { border-color: #999; }
+
+.uc-meta { display: flex; flex-direction: column; gap: 6px; }
+.uc-meta-row { display: flex; align-items: center; }
+.uc-meta-label { font-size: 12px; color: #999; min-width: 76px; flex-shrink: 0; }
+.uc-meta-val { font-size: 12px; color: #1a1a1a; }
+.uc-meta-link { font-size: 12px; color: #1677ff; text-decoration: none; margin-left: 4px; }
+
+/* 通用 section */
+.sec { border-bottom: 1px solid #f0f0f0; }
+.sec-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; cursor: pointer; user-select: none;
+}
+.sec-hd:hover { background: #fafafa; }
+.sec-title { font-size: 13px; font-weight: 600; color: #1a1a1a; display: flex; align-items: center; gap: 5px; }
+.sec-arrow { color: #bbb; }
+.sec-body { padding: 2px 16px 12px; }
+.sec-body.hide { display: none; }
+
+/* 字段行 */
+.fr { display: flex; align-items: flex-start; padding: 5px 0; }
+.fl { font-size: 12px; color: #999; min-width: 88px; line-height: 20px; flex-shrink: 0; }
+.fv { font-size: 12px; color: #1a1a1a; line-height: 20px; flex: 1; display: flex; align-items: center; flex-wrap: wrap; gap: 3px; }
+.fv-blue { color: #1677ff; cursor: pointer; }
+.fv-blue:hover { text-decoration: underline; }
+.copy-btn { color: #ccc; cursor: pointer; margin-left: 4px; flex-shrink: 0; }
+.copy-btn:hover { color: #666; }
+.eye-btn { color: #ccc; cursor: pointer; margin-left: 4px; }
+.fdivider { height: 1px; background: #f5f5f5; margin: 1px 0; }
+
+/* 客资标签下拉 */
+.kz-tag-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: #ffe8e8; color: #ff2442; font-size: 12px;
+  padding: 3px 10px; border-radius: 4px; cursor: pointer;
+  border: none; font-family: inherit;
+}
+.kz-tag-btn svg { color: #ff2442; }
+
+/* ── 客户画像 NEW ── */
+.portrait-sec { border-bottom: 1px solid #f0f0f0; }
+.portrait-hd {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 16px; cursor: pointer; user-select: none;
+}
+.portrait-hd:hover { background: #fafafa; }
+.portrait-title { font-size: 13px; font-weight: 600; color: #1a1a1a; display: flex; align-items: center; gap: 6px; }
+.new-dot { background: #ff2442; color: #fff; font-size: 9px; font-weight: 700; padding: 1px 4px; border-radius: 5px; letter-spacing: 0.3px; }
+.portrait-body { padding: 2px 16px 12px; }
+
+/* 决策阶段 */
+.stage-pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #fff8f0; border: 1px solid #ffe0b2;
+  color: #e65c00; font-size: 11px; font-weight: 600;
+  padding: 2px 9px; border-radius: 10px;
+}
+.stage-dot { width: 6px; height: 6px; background: #ff8c00; border-radius: 50%; animation: blink 1.8s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+.stage-days { font-size: 11px; color: #bbb; margin-left: 4px; }
+
+/* 价格tag */
+.ptag {
+  display: inline-flex; align-items: center;
+  font-size: 11px; padding: 2px 8px; border-radius: 3px; line-height: 17px;
+}
+.ptag-red { background: #fff0f0; color: #cf1322; border: 1px solid #ffa39e; }
+.ptag-blue { background: #e6f4ff; color: #1677ff; border: 1px solid #91caff; }
+.ptag-gray { background: #f5f5f5; color: #595959; border: 1px solid #d9d9d9; }
+
+/* 关键需求 */
+.ntag {
+  display: inline-flex; align-items: center; gap: 2px;
+  font-size: 11px; color: #444;
+  background: #fafafa; border: 1px solid #e8e8e8;
+  padding: 2px 7px; border-radius: 3px; margin-bottom: 2px;
+}
+.ntag-key { color: #999; }
+
+/* 时间段 */
+.time-row { display: flex; align-items: center; gap: 4px; font-size: 11px; color: #444; }
+.time-note { font-size: 10px; color: #bbb; }
+
+/* 核心顾虑引用 */
+.concern-tag { display: inline-flex; align-items: center; background: #fff0f0; color: #cf1322; font-size: 11px; padding: 2px 8px; border-radius: 3px; border: 1px solid #ffa39e; }
+.concern-quote { margin-top: 4px; border-left: 2px solid #ddd; padding: 3px 8px; font-size: 11px; color: #888; line-height: 17px; font-style: italic; background: #fafafa; }
+
+.hint-sm { font-size: 11px; color: #bbb; line-height: 17px; }
+.sec-sub-label { font-size: 11px; color: #999; min-width: 52px; }
+.sec-sub-val { font-size: 11px; color: #1a1a1a; }
 </style>
 </head>
 <body>
+<div class="app">
 
-<div class="sidebar">
-
-  <!-- 顶部标签 -->
-  <div class="sidebar-header">
-    <h2>客资标注</h2>
+  <!-- 左侧导航 -->
+  <div class="nav">
+    <div class="nav-avatar">🐻</div>
+    <div class="nav-item active">
+      <div class="nav-icon">💬</div>
+      <div class="nav-label">私信</div>
+    </div>
+    <div class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <div class="nav-label">潜客</div>
+    </div>
+    <div class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <div class="nav-label">会话管理</div>
+    </div>
+    <div class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      <div class="nav-label">数据</div>
+    </div>
+    <div class="nav-item">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"/><path d="M12 6v6l4 2"/></svg>
+      <div class="nav-label">小助手</div>
+    </div>
+    <div class="nav-spacer"></div>
+    <div class="nav-bottom">
+      <div class="nav-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="6" height="6" rx="1"/><rect x="2" y="13" width="6" height="6" rx="1"/><rect x="10" y="3" width="12" height="6" rx="1"/><rect x="10" y="13" width="12" height="6" rx="1"/></svg>
+        <div class="nav-label">工具</div>
+      </div>
+      <div class="nav-item">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M20 12h2M2 12h2M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41"/></svg>
+        <div class="nav-label">设置</div>
+      </div>
+    </div>
   </div>
 
-  <!-- ① 用户卡片 -->
-  <div class="user-card">
-    <div class="user-card-top">
-      <div class="user-info">
-        <div class="avatar">薯</div>
-        <div>
-          <div class="user-name">小红薯6958F37D</div>
-          <div><span class="user-tag">粉丝</span></div>
+  <!-- 会话列表 -->
+  <div class="sessions">
+    <div class="sessions-search">
+      <div class="search-input-wrap">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" placeholder="输入用户ID/小红书ID">
+      </div>
+      <div class="filter-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+      </div>
+    </div>
+    <div class="sessions-tabs">
+      <div class="stab active">当前会话</div>
+      <div class="stab">全部会话</div>
+    </div>
+    <div class="session-list">
+
+      <!-- 会话1：热线索 + AI接待中 -->
+      <div class="sitem">
+        <div class="sitem-avatar" style="background:#e0e0e0; overflow:hidden;">
+          <img src="https://via.placeholder.com/40/e0e0e0/999?text=王" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'">
+          <span style="position:absolute;font-size:16px;">👨</span>
+        </div>
+        <div class="sitem-main">
+          <div class="sitem-row1">
+            <span class="sitem-name">王祚轩｜结构抗衰助理</span>
+            <span class="sitem-time">17:04:54</span>
+          </div>
+          <div class="sitem-row2">
+            <span class="sitem-preview">您好，我是王祚轩肋...</span>
+          </div>
+          <div style="margin-top:3px;display:flex;gap:4px;flex-wrap:wrap;">
+            <span class="stag stag-hot">🔴 热线索</span>
+            <span class="stag stag-blue">AI接待中</span>
+          </div>
         </div>
       </div>
-      <button class="follow-btn">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        关注
-      </button>
-    </div>
-    <div class="user-meta">
-      <div class="meta-row">
-        <span class="meta-label">北京市-北京市</span>
-        <a href="#" class="meta-link">小红书主页 ›</a>
+
+      <!-- 会话2：温线索 + 跟进中 -->
+      <div class="sitem">
+        <div class="sitem-avatar" style="background:#c8e6c9;">
+          <span style="font-size:20px;">👕</span>
+        </div>
+        <div class="sitem-main">
+          <div class="sitem-row1">
+            <span class="sitem-name">小红薯671B6679</span>
+            <span class="sitem-time">12:14:32</span>
+          </div>
+          <div class="sitem-row2">
+            <span class="stag stag-gray" style="background:#fff0e6;color:#cf1322;font-size:10px;">[超时未回复]</span>
+            <span class="sitem-preview">对方通过「🔴一起看...</span>
+          </div>
+          <div style="margin-top:3px;display:flex;gap:4px;flex-wrap:wrap;">
+            <span class="stag stag-warm">🟠 温线索</span>
+            <span class="stag stag-gray">跟进中</span>
+          </div>
+        </div>
       </div>
-      <div class="meta-row">
-        <span class="meta-label">小红书号</span>
-        <span class="meta-value">6187714512</span>
+
+      <!-- 会话3：冷线索（无接待状态标签） -->
+      <div class="sitem">
+        <div class="sitem-avatar" style="background:#fff3e0;">
+          <span style="font-size:20px;">📢</span>
+        </div>
+        <div class="sitem-main">
+          <div class="sitem-row1">
+            <span class="sitem-name">商业广告薯</span>
+            <span class="sitem-time">17:30:04</span>
+          </div>
+          <div class="sitem-row2">
+            <span class="stag stag-gray" style="background:#f5f5f5;">[留资卡]</span>
+            <span class="sitem-preview">这是一个标...</span>
+          </div>
+          <div style="margin-top:3px;display:flex;gap:4px;flex-wrap:wrap;">
+            <span class="stag stag-cold">🔵 冷线索</span>
+          </div>
+        </div>
       </div>
-      <div class="meta-row">
-        <span class="meta-label">小红书uid</span>
-        <span class="meta-value" style="font-size:10.5px;">64004eb20000000001001e037</span>
+
+      <!-- 会话4：温线索（无接待状态） -->
+      <div class="sitem">
+        <div class="sitem-avatar" style="background:#e8eaf6;">
+          <span style="font-size:20px;">👕</span>
+        </div>
+        <div class="sitem-main">
+          <div class="sitem-row1">
+            <span class="sitem-name">小红薯69BBEF8D</span>
+            <span class="sitem-time">14:29:34</span>
+          </div>
+          <div class="sitem-row2">
+            <span class="sitem-preview">好的，微信联系～</span>
+          </div>
+          <div style="margin-top:3px;display:flex;gap:4px;flex-wrap:wrap;">
+            <span class="stag stag-warm">🟠 温线索</span>
+          </div>
+        </div>
       </div>
+
+      <!-- 会话5：当前选中 · 热线索 + AI接待中 + 留客资 -->
+      <div class="sitem active">
+        <div class="sitem-avatar" style="background:#fff3e0;">
+          <span style="font-size:20px;">⚠️</span>
+        </div>
+        <div class="sitem-main">
+          <div class="sitem-row1">
+            <span class="sitem-name">小红薯6958F37D</span>
+            <span class="sitem-time">10:52:24</span>
+          </div>
+          <div class="sitem-row2">
+            <span class="stag stag-gray" style="background:#fff0e6;color:#cf1322;font-size:10px;">[超时未回复]</span>
+            <span class="sitem-preview">你好记得记得就</span>
+          </div>
+          <div style="margin-top:3px;display:flex;gap:4px;flex-wrap:wrap;">
+            <span class="stag stag-hot">🔴 热线索</span>
+            <span class="stag stag-blue">AI接待中</span>
+            <span class="stag" style="background:#ffe8e8;color:#ff2442;">留客资</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 会话6：冷线索 -->
+      <div class="sitem">
+        <div class="sitem-avatar" style="background:#e8f5e9;">
+          <span style="font-size:20px;">🪐</span>
+        </div>
+        <div class="sitem-main">
+          <div class="sitem-row1">
+            <span class="sitem-name">小红薯671B952A</span>
+            <span class="sitem-time">10:07:39</span>
+          </div>
+          <div class="sitem-row2">
+            <span class="stag stag-gray" style="background:#fff0e6;color:#cf1322;font-size:10px;">[超时未回复]</span>
+            <span class="sitem-preview">对方通过「🔴一起看...</span>
+          </div>
+          <div style="margin-top:3px;display:flex;gap:4px;flex-wrap:wrap;">
+            <span class="stag stag-cold">🔵 冷线索</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 会话7：热线索 + AI接待中 + 高潜成交 -->
+      <div class="sitem">
+        <div class="sitem-avatar" style="background:#fce4ec;">
+          <span style="font-size:20px;">😊</span>
+        </div>
+        <div class="sitem-main">
+          <div class="sitem-row1">
+            <span class="sitem-name">测试1310</span>
+            <span class="sitem-time">09:30:03</span>
+          </div>
+          <div class="sitem-row2">
+            <span class="stag stag-gray" style="background:#fff0e6;color:#cf1322;font-size:10px;">[超时未回复]</span>
+            <span class="sitem-preview">对方已查看你的手机号</span>
+          </div>
+          <div style="margin-top:3px;display:flex;gap:4px;flex-wrap:wrap;">
+            <span class="stag stag-hot">🔴 热线索</span>
+            <span class="stag stag-blue">AI接待中</span>
+            <span class="stag stag-green">高潜成交</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- ② 客户画像（新增模块） -->
-  <div class="portrait-section">
-    <div class="portrait-header" onclick="toggleSection('portrait')">
-      <div class="portrait-title">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff2442" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        客户画像
-        <span class="new-badge">NEW</span>
+  <!-- 聊天区 -->
+  <div class="chat">
+    <div class="chat-header">
+      <div class="chat-header-left">
+        <span class="chat-uname">小红薯6958F37D</span>
+        <span class="chat-stag">留客资</span>
+        <span style="font-size:12px;color:#bbb;margin-left:4px;">2026-04-09 19:41:46</span>
       </div>
-      <svg class="chevron up" id="portrait-chevron" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      <div class="chat-header-icons">
+        <div class="hicon" title="提醒">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <div class="hicon" title="标记">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
+        </div>
+        <div class="hicon" title="更多">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="5" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="12" cy="19" r="1"/></svg>
+        </div>
+        <div class="hicon" title="关闭">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </div>
+      </div>
     </div>
-    <div class="portrait-body" id="portrait-body">
 
-      <!-- 决策阶段 -->
-      <div class="field-row" style="padding-top:4px;">
-        <span class="field-label">决策阶段</span>
-        <div class="field-value" style="flex-direction:column; align-items:flex-start; gap:2px;">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <div class="stage-badge">
-              <span class="stage-dot"></span>
-              意向期
+    <div class="chat-messages">
+
+      <div class="msg-time-center">小红薯6958F37D 2026-04-09 19:41:46</div>
+
+      <!-- 图片消息 -->
+      <div class="msg-row">
+        <div class="msg-avatar-sm" style="background:#d4a574;">薯</div>
+        <div class="msg-col">
+          <div class="bubble-img">
+            <div style="width:120px;height:120px;background:linear-gradient(135deg,#ffe0b2,#ffcc80);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:40px;">🐻</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="msg-time-center">小红薯6958F37D 2026-04-09 19:46:11</div>
+
+      <div class="msg-row">
+        <div class="msg-avatar-sm" style="background:#d4a574;">薯</div>
+        <div class="msg-col">
+          <div class="bubble">你好</div>
+        </div>
+      </div>
+
+      <div class="msg-time-center">小红薯6958F37D 2026-04-09 19:46:25</div>
+
+      <div class="msg-row">
+        <div class="msg-avatar-sm" style="background:#d4a574;">薯</div>
+        <div class="msg-col">
+          <div class="bubble">微信号是37384782</div>
+        </div>
+      </div>
+
+      <div class="msg-time-center">2026-04-09 19:46:26</div>
+
+      <div class="sys-msg">
+        19:46:25 访客联系方式已自动记录至「聚光平台-线索管理」处，可在<br>
+        「私信通」「聚光平台」操作修改。
+      </div>
+
+      <div class="msg-time-center">小红薯6958F37D 2026-04-10 10:52:24</div>
+
+      <div class="msg-row">
+        <div class="msg-avatar-sm" style="background:#d4a574;">薯</div>
+        <div class="msg-col">
+          <div class="bubble">你好记得记得就</div>
+        </div>
+      </div>
+
+      <div class="msg-time-center">小红薯6958F37D 2026-04-10 10:55:03</div>
+
+      <!-- 行为提示：客户查看笔记 -->
+      <div class="behavior-tip">
+        <div class="btip-icon">🏕️</div>
+        <div class="btip-content">
+          <div class="btip-label">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fa8c16" stroke-width="2.2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            客户刚刚查看了笔记
+          </div>
+          <div class="btip-title">【五一云南亲子游】3天2夜民宿精选·大理洱海边·一家三口超值攻略</div>
+        </div>
+        <div class="btip-time">10:55</div>
+      </div>
+
+    </div>
+
+    <div class="chat-toolbar">
+      <div class="ticon" title="表情">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+      </div>
+      <div class="ticon" title="图片">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      </div>
+      <div class="ticon" title="文件">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      </div>
+      <div class="ticon" title="视频">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      </div>
+      <div class="ticon" title="名片">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
+      </div>
+      <div class="ticon" title="更多">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg>
+      </div>
+    </div>
+
+    <div class="chat-input-area">
+      <textarea class="chat-textarea" placeholder="按「回车键」发送信息...（输入/唤起快捷回复）"></textarea>
+      <button class="send-btn">发送</button>
+    </div>
+  </div>
+
+  <!-- 右侧边栏 -->
+  <div class="sidebar">
+
+    <div class="sidebar-top">
+      <span class="sidebar-top-title">客资标注</span>
+    </div>
+
+    <!-- 用户卡片 -->
+    <div class="user-card">
+      <div class="uc-row1">
+        <div class="uc-left">
+          <div class="uc-avatar" style="background:#f5a623;">⚠️</div>
+          <div>
+            <div class="uc-name">小红薯6958F37D</div>
+            <div><span class="uc-badge">粉丝</span></div>
+          </div>
+        </div>
+        <button class="follow-btn">+ 关注</button>
+      </div>
+      <div class="uc-meta">
+        <div class="uc-meta-row">
+          <span class="uc-meta-label">北京市-北京市</span>
+          <a href="#" class="uc-meta-link">小红书主页 ›</a>
+        </div>
+        <div class="uc-meta-row">
+          <span class="uc-meta-label">小红书号</span>
+          <span class="uc-meta-val">6187714512</span>
+        </div>
+        <div class="uc-meta-row">
+          <span class="uc-meta-label">小红书uid</span>
+          <span class="uc-meta-val" style="font-size:11px;">64004eb2000000000 1001e037</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ★ 客户画像（新增）★ -->
+    <div class="portrait-sec">
+      <div class="portrait-hd" onclick="tog('portrait')">
+        <div class="portrait-title">
+          客户画像
+          <span class="new-dot">NEW</span>
+        </div>
+        <svg id="portrait-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" class="sec-arrow"><polyline points="18 15 12 9 6 15"/></svg>
+      </div>
+      <div class="portrait-body" id="portrait-body">
+
+        <div class="fr" style="padding-top:5px;">
+          <span class="fl">决策阶段</span>
+          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:0;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <div class="stage-pill"><span class="stage-dot"></span>意向期</div>
+              <span class="stage-days">已停留 3 天</span>
             </div>
-            <span class="stage-days">已停留 3 天</span>
           </div>
         </div>
-      </div>
+        <div class="fdivider"></div>
 
-      <div class="field-divider"></div>
-
-      <!-- 价格敏感度 -->
-      <div class="field-row">
-        <span class="field-label">价格敏感度</span>
-        <div class="field-value" style="flex-direction:column; align-items:flex-start; gap:3px;">
-          <span class="tag tag-red">高</span>
-          <span class="sensitivity-hint">3次主动询价<span class="sensitivity-dot">·</span>提及竞品价格</span>
-        </div>
-      </div>
-
-      <div class="field-divider"></div>
-
-      <!-- 产品偏好 -->
-      <div class="field-row">
-        <span class="field-label">产品偏好</span>
-        <div class="field-value">
-          <span class="tag tag-blue">亲子度假</span>
-          <span class="tag tag-blue">民宿</span>
-        </div>
-      </div>
-
-      <div class="field-divider"></div>
-
-      <!-- 关键需求 -->
-      <div class="field-row" style="align-items:flex-start;">
-        <span class="field-label" style="padding-top:2px;">关键需求</span>
-        <div class="field-value" style="flex-wrap:wrap; align-items:flex-start;">
-          <span class="need-tag"><span>出行日期</span>五一</span>
-          <span class="need-tag"><span>目的地</span>云南</span>
-          <span class="need-tag"><span>人数</span>一家三口</span>
-          <span class="need-tag"><span>预算</span>人均3000以内</span>
-          <span class="need-tag"><span>城市</span>上海</span>
-        </div>
-      </div>
-
-      <div class="field-divider"></div>
-
-      <!-- 最佳联系时段 -->
-      <div class="field-row" style="align-items:flex-start;">
-        <span class="field-label" style="padding-top:2px;">最佳联系</span>
-        <div class="field-value" style="flex-direction:column; gap:3px; align-items:flex-start;">
-          <div class="time-slot">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span>工作日 20:00–21:00</span>
-            <span style="color:#bbb; font-size:10px;">均响应&lt;5分钟</span>
-          </div>
-          <div class="time-slot">
-            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            <span>周末 10:00–11:00</span>
+        <div class="fr">
+          <span class="fl">价格敏感度</span>
+          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:2px;">
+            <span class="ptag ptag-red">高</span>
+            <span class="hint-sm">3次主动询价 · 提及竞品价格</span>
           </div>
         </div>
-      </div>
+        <div class="fdivider"></div>
 
-      <div class="field-divider"></div>
-
-      <!-- 核心顾虑 -->
-      <div class="field-row" style="align-items:flex-start;">
-        <span class="field-label" style="padding-top:2px;">核心顾虑</span>
-        <div class="field-value" style="flex-direction:column; align-items:flex-start; gap:4px;">
-          <div style="display:flex; gap:4px; flex-wrap:wrap;">
-            <span class="tag tag-red" style="background:#fff5f5; color:#e53e3e; border-color:#fed7d7;">价格顾虑</span>
+        <div class="fr">
+          <span class="fl">产品偏好</span>
+          <div class="fv">
+            <span class="ptag ptag-blue">亲子度假</span>
+            <span class="ptag ptag-blue">民宿</span>
           </div>
-          <div class="concern-quote">「能不能再便宜点，另一家更便宜」</div>
         </div>
-      </div>
+        <div class="fdivider"></div>
 
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl" style="padding-top:1px;">关键需求</span>
+          <div class="fv" style="flex-wrap:wrap;align-items:flex-start;">
+            <span class="ntag"><span class="ntag-key">出行日期</span>五一</span>
+            <span class="ntag"><span class="ntag-key">目的地</span>云南</span>
+            <span class="ntag"><span class="ntag-key">人数</span>一家三口</span>
+            <span class="ntag"><span class="ntag-key">预算</span>人均3000以内</span>
+            <span class="ntag"><span class="ntag-key">城市</span>上海</span>
+          </div>
+        </div>
+        <div class="fdivider"></div>
+
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl" style="padding-top:1px;">最佳联系</span>
+          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:3px;">
+            <div class="time-row">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              工作日 20:00–21:00
+              <span class="time-note">均响应&lt;5min</span>
+            </div>
+            <div class="time-row">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              周末 10:00–11:00
+            </div>
+          </div>
+        </div>
+        <div class="fdivider"></div>
+
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl" style="padding-top:1px;">核心顾虑</span>
+          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:4px;">
+            <span class="concern-tag">价格顾虑</span>
+            <div class="concern-quote">「能不能再便宜点，另一家更便宜」</div>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
 
-  <!-- ③ 广告归因 -->
-  <div class="section">
-    <div class="section-header" onclick="toggleSection('ad')">
-      <span class="section-title">广告归因</span>
-      <svg class="chevron up" id="ad-chevron" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-    <div class="section-body" id="ad-body">
-      <div class="field-row">
-        <span class="field-label">归因直播间主播</span>
-        <div class="field-value">
-          <span style="color:#4080ff; font-size:12px;">测试名字</span>
-          <svg class="copy-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+    <!-- 广告归因 -->
+    <div class="sec">
+      <div class="sec-hd" onclick="tog('ad')">
+        <span class="sec-title">广告归因</span>
+        <svg id="ad-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" class="sec-arrow"><polyline points="18 15 12 9 6 15"/></svg>
+      </div>
+      <div class="sec-body" id="ad-body">
+        <div class="fr">
+          <span class="fl">归因直播间主播</span>
+          <div class="fv"><span class="fv-blue">测试名字 ›</span></div>
         </div>
-      </div>
-      <div class="field-row">
-        <span class="field-label">直播间ID</span>
-        <div class="field-value">
-          <span class="id-value">5702247482707151 52</span>
-          <svg class="copy-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <div class="fr">
+          <span class="fl">直播间ID</span>
+          <div class="fv"><span style="font-size:11px;">570224748270715152</span></div>
         </div>
-      </div>
-      <div class="field-row">
-        <span class="field-label">进线搜索关键词</span>
-        <div class="field-value"><span style="color:#bbb;">—</span></div>
-      </div>
-      <div class="field-row">
-        <span class="field-label">计划名称/ID</span>
-        <div class="field-value">
-          <span style="color:#555; font-size:11px; word-break:break-all;">客资收集_数据计划HY01_20260409...</span>
-          <svg class="copy-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <div class="fr">
+          <span class="fl">进线搜索关键词</span>
+          <div class="fv"><span style="color:#bbb;">-</span></div>
         </div>
-      </div>
-      <div class="field-row">
-        <span class="field-label">创意名称/ID</span>
-        <div class="field-value">
-          <span style="color:#555; font-size:11px; word-break:break-all;">客资收集_创意1_20260409_150850</span>
-          <svg class="copy-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl">计划名称/ID</span>
+          <div class="fv" style="font-size:11px;word-break:break-all;">客资收集_数据计划HY01_20260409_...</div>
         </div>
-      </div>
-      <div class="field-row">
-        <span class="field-label">投放账户名称/ID</span>
-        <div class="field-value">
-          <span style="color:#4080ff; font-size:12px;">测试名字</span>
-          <svg class="copy-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl">创意名称/ID</span>
+          <div class="fv" style="font-size:11px;word-break:break-all;">客资收集_创意1_20260409_150850</div>
+        </div>
+        <div class="fr">
+          <span class="fl">投放账户名称/ID</span>
+          <div class="fv"><span class="fv-blue">测试名字</span></div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- ④ 客资信息 -->
-  <div class="section">
-    <div class="section-header" onclick="toggleSection('info')">
-      <span class="section-title">客资信息</span>
-      <svg class="chevron up" id="info-chevron" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-    <div class="section-body" id="info-body">
-      <div class="field-row">
-        <span class="field-label">客资标签</span>
-        <div class="field-value">
-          <div class="tag-select">
-            留客资
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    <!-- 客资信息 -->
+    <div class="sec">
+      <div class="sec-hd" onclick="tog('info')">
+        <span class="sec-title">客资信息</span>
+        <svg id="info-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" class="sec-arrow"><polyline points="18 15 12 9 6 15"/></svg>
+      </div>
+      <div class="sec-body" id="info-body">
+        <div class="fr">
+          <span class="fl">客资标签</span>
+          <div class="fv">
+            <button class="kz-tag-btn">
+              留客资
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
           </div>
         </div>
-      </div>
-      <div class="field-row">
-        <span class="field-label">手机号码</span>
-        <div class="field-value">
-          <span class="phone-value">176****1133</span>
-          <svg class="eye-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </div>
-      </div>
-      <div class="field-row">
-        <span class="field-label">微信账号</span>
-        <div class="field-value">
-          <span>373***</span>
-          <svg class="eye-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-        </div>
-      </div>
-      <div class="field-row">
-        <span class="field-label">所属地域</span>
-        <div class="field-value">北京市</div>
-      </div>
-      <div class="field-row" style="align-items:flex-start;">
-        <span class="field-label" style="padding-top:2px;">补充备注</span>
-        <div class="field-value" style="color:#555; line-height:18px; font-size:11.5px;">
-          测试HY1234234234234234HHHHHHH H3哦图rough
-          <div style="color:#bbb; font-size:11px; margin-top:2px; text-align:right;">36/200</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ⑤ 信息来源 -->
-  <div class="section">
-    <div class="section-header" onclick="toggleSection('source')">
-      <span class="section-title">信息来源</span>
-      <svg class="chevron up" id="source-chevron" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-    <div class="section-body" id="source-body">
-      <div class="field-row">
-        <span class="field-label">名片</span>
-        <div class="field-value">
-          企业微信 - <a href="#" class="source-link">已添加企微</a>
-        </div>
-      </div>
-      <div class="field-row" style="align-items:flex-start;">
-        <span class="field-label" style="padding-top:2px;">留资卡</span>
-        <div class="field-value" style="flex-direction:column; gap:3px; align-items:flex-start;">
-          <div class="field-row" style="padding:0; gap:8px;">
-            <span style="color:#999; min-width:40px; font-size:11px;">名称</span>
-            <span style="font-size:11px; color:#555;">内灰企业号补充卡</span>
+        <div class="fr">
+          <span class="fl">手机号码</span>
+          <div class="fv">176****1133
+            <svg class="eye-btn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
-          <div class="field-row" style="padding:0; gap:8px;">
-            <span style="color:#999; min-width:40px; font-size:11px;">手机号码</span>
-            <span style="font-size:11px; color:#555;">186****6140</span>
-            <svg class="eye-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="fr">
+          <span class="fl">微信账号</span>
+          <div class="fv">373***
+            <svg class="eye-btn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
           </div>
-          <div class="field-row" style="padding:0; gap:8px;">
-            <span style="color:#999; min-width:40px; font-size:11px;">微信号</span>
-            <span style="font-size:11px; color:#555;">533***</span>
-            <svg class="eye-btn" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <div class="fr">
+          <span class="fl">所属地域</span>
+          <div class="fv">北京市</div>
+        </div>
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl" style="padding-top:2px;">补充备注</span>
+          <div class="fv" style="flex-direction:column;align-items:flex-start;">
+            <span style="font-size:12px;color:#1a1a1a;line-height:18px;">测试HY1234234234234234HHHHHHHH H3哦图rough</span>
+            <span style="font-size:11px;color:#bbb;align-self:flex-end;margin-top:2px;">36/200</span>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- 信息来源 -->
+    <div class="sec">
+      <div class="sec-hd" onclick="tog('src')">
+        <span class="sec-title">信息来源</span>
+        <svg id="src-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" class="sec-arrow"><polyline points="18 15 12 9 6 15"/></svg>
+      </div>
+      <div class="sec-body" id="src-body">
+        <div class="fr">
+          <span class="fl">名片</span>
+          <div class="fv">企业微信 – <a href="#" class="fv-blue" style="text-decoration:none;">已添加企微</a></div>
+        </div>
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl">留资卡</span>
+          <div class="fv" style="flex-direction:column;gap:3px;align-items:flex-start;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="sec-sub-label">名称</span>
+              <span class="sec-sub-val">内灰企业号补充卡</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="sec-sub-label">手机号码</span>
+              <span class="sec-sub-val">186****6140</span>
+              <svg class="eye-btn" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span class="sec-sub-label">微信号</span>
+              <span class="sec-sub-val">533***</span>
+              <svg class="eye-btn" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
 </div>
 
 <script>
-function toggleSection(id) {
-  const body = document.getElementById(id + '-body');
-  const chevron = document.getElementById(id + '-chevron');
-  if (body.style.display === 'none') {
-    body.style.display = '';
-    chevron.classList.remove('down');
-    chevron.classList.add('up');
-  } else {
-    body.style.display = 'none';
-    chevron.classList.remove('up');
-    chevron.classList.add('down');
+function tog(id) {
+  const body = document.getElementById(id+'-body');
+  const arr  = document.getElementById(id+'-arr');
+  if (!body) return;
+  const open = body.style.display !== 'none' && body.style.display !== '';
+  // portrait-body default open
+  body.style.display = open ? 'none' : '';
+  // 箭头：展开=朝上(polyline 18,15 12,9 6,15)，折叠=朝下
+  if (arr) {
+    arr.querySelector('polyline').setAttribute('points', open ? '6 9 12 15 18 9' : '18 15 12 9 6 15');
   }
 }
+// 初始状态：广告归因、客资信息、信息来源默认展开（箭头朝上）
 </script>
 </body>
 </html>
