@@ -324,11 +324,11 @@ body {
 /* 决策阶段 */
 .stage-pill {
   display: inline-flex; align-items: center; gap: 5px;
-  background: #fff8f0; border: 1px solid #ffe0b2;
-  color: #e65c00; font-size: 11px; font-weight: 600;
+  background: #f5f5f5; border: 1px solid #e8e8e8;
+  color: #595959; font-size: 11px; font-weight: 500;
   padding: 2px 9px; border-radius: 10px;
 }
-.stage-dot { width: 6px; height: 6px; background: #ff8c00; border-radius: 50%; animation: blink 1.8s infinite; }
+.stage-dot { display: none; }
 @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
 .stage-days { font-size: 11px; color: #bbb; margin-left: 4px; }
 
@@ -765,28 +765,6 @@ body {
         </div>
         <div class="fdivider"></div>
 
-        <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:2px;">行为轨迹</span>
-          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:4px;">
-            <div style="display:flex;gap:6px;align-items:center;font-size:12px;">
-              <span style="color:#999;min-width:64px;">最近活跃</span>
-              <span style="color:#1a1a1a;">2026-04-14 10:52</span>
-            </div>
-            <div style="display:flex;gap:6px;align-items:flex-start;font-size:12px;">
-              <span style="color:#999;min-width:64px;">活跃时段</span>
-              <div style="display:flex;flex-direction:column;gap:2px;">
-                <div class="time-row">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  工作日 20:00–22:00
-                </div>
-                <div class="time-row">
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                  周末 10:00–12:00
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
 
       </div>
     </div>
@@ -833,12 +811,12 @@ body {
           <span class="fl" style="padding-top:2px;">风险提醒</span>
           <div class="fv" style="flex-direction:column;align-items:flex-start;gap:4px;">
             <div style="display:flex;align-items:center;gap:5px;">
-              <span style="width:6px;height:6px;border-radius:50%;background:#fa8c16;flex-shrink:0;"></span>
-              <span style="font-size:12px;color:#fa8c16;">主动提及竞品</span>
+              <span style="width:5px;height:5px;border-radius:50%;background:#999;flex-shrink:0;"></span>
+              <span style="font-size:12px;color:#595959;">主动提及竞品</span>
             </div>
             <div style="display:flex;align-items:center;gap:5px;">
-              <span style="width:6px;height:6px;border-radius:50%;background:#ff4d4f;flex-shrink:0;"></span>
-              <span style="font-size:12px;color:#ff4d4f;">沉默超 3 天，流失风险高</span>
+              <span style="width:5px;height:5px;border-radius:50%;background:#999;flex-shrink:0;"></span>
+              <span style="font-size:12px;color:#595959;">沉默超 3 天，流失风险高</span>
             </div>
           </div>
         </div>
