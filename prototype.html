@@ -704,7 +704,7 @@ body {
           <div class="btip-line" style="flex:1;"></div>
           <span class="btip-toggle-text">
             <svg id="btip-arr-1" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .2s;"><polyline points="6 9 12 15 18 9"/></svg>
-            还有 2 条行为记录
+            查看更多用户动态
           </span>
           <div class="btip-line" style="flex:1;"></div>
         </div>
@@ -1055,7 +1055,7 @@ function toggleBtip(id) {
   arr.style.transform = isHidden ? 'rotate(180deg)' : '';
   // 计算折叠条数
   const count = extra.querySelectorAll('.behavior-tip').length;
-  label.innerHTML = (isHidden ? '收起' : '还有 ' + count + ' 条行为记录') +
+  label.innerHTML = (isHidden ? '收起' : '查看更多用户动态') +
     ' <svg id="btip-arr-' + id + '" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="transition:transform .2s;transform:' + (isHidden ? 'rotate(180deg)' : '') + '"><polyline points="6 9 12 15 18 9"/></svg>';
 }
 function setSummaryEmpty(empty) {
