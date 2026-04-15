@@ -213,6 +213,47 @@ body {
   font-size: 12px; color: #ff4d4f; white-space: nowrap;
   line-height: 20px;
 }
+.behavior-tips-wrap { display: flex; flex-direction: column; }
+.btip-item { display: flex; align-items: center; }
+.btip-more-row, .btip-collapse-row {
+  display: flex; align-items: center; justify-content: center;
+  padding: 2px 0;
+}
+.btip-more-btn {
+  display: inline-flex; align-items: center; gap: 3px;
+  font-size: 11px; color: #999; cursor: pointer; user-select: none;
+}
+.btip-more-btn:hover { color: #555; }
+
+/* 内容总结卡片 */
+.summary-card {
+  background: #fafafa; border-radius: 6px;
+  padding: 8px 10px; margin: 4px 0;
+}
+.summary-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 5px;
+}
+.summary-label { font-size: 12px; font-weight: 600; color: #1a1a1a; }
+.summary-edit-btn { color: #bbb; cursor: pointer; flex-shrink: 0; }
+.summary-edit-btn:hover { color: #666; }
+.summary-text { font-size: 12px; color: #1a1a1a; line-height: 1.7; }
+.summary-textarea {
+  width: 100%; font-size: 12px; color: #1a1a1a; line-height: 1.7;
+  border: 1px solid #d9d9d9; border-radius: 4px; padding: 4px 6px;
+  resize: none; height: 72px; outline: none; font-family: inherit;
+}
+.summary-textarea:focus { border-color: #ff2442; }
+.summary-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 5px;
+}
+.summary-count { font-size: 11px; color: #bbb; }
+.summary-cancel-btn, .summary-save-btn {
+  font-size: 11px; padding: 2px 8px; border-radius: 3px; cursor: pointer; border: 1px solid #d9d9d9;
+}
+.summary-cancel-btn { background: #fff; color: #666; }
+.summary-save-btn { background: #ff2442; color: #fff; border-color: #ff2442; }
 
 /* 聊天工具栏 */
 .chat-toolbar {
@@ -292,23 +333,21 @@ body {
 .fdivider { height: 1px; background: #f5f5f5; margin: 1px 0; }
 
 /* AI说明 tooltip */
-.ai-tip-icon { position: relative; display: inline-flex; align-items: center; }
+.ai-tip-icon { position: relative; display: inline-flex; align-items: center; cursor: default; }
 .ai-tip-box {
   display: none;
-  position: absolute;
-  left: 50%;
-  top: calc(100% + 6px);
-  transform: translateX(-50%);
-  background: rgba(0,0,0,0.75);
+  position: fixed;
+  background: rgba(0,0,0,0.78);
   color: #fff;
   font-size: 11px;
   line-height: 1.5;
   white-space: nowrap;
   padding: 6px 10px;
   border-radius: 6px;
-  z-index: 999;
+  z-index: 9999;
   pointer-events: none;
   font-weight: 400;
+  transform: translateX(-50%);
 }
 .ai-tip-box::before {
   content: "";
@@ -317,9 +356,8 @@ body {
   left: 50%;
   transform: translateX(-50%);
   border: 5px solid transparent;
-  border-bottom-color: rgba(0,0,0,0.75);
+  border-bottom-color: rgba(0,0,0,0.78);
 }
-.ai-tip-icon:hover .ai-tip-box { display: block; }
 
 /* 客资标签下拉 */
 .kz-tag-btn {
@@ -684,10 +722,43 @@ body {
 
       <div class="msg-time-center">小红薯6958F37D 2026-04-10 10:55:03</div>
 
-      <!-- 行为提示：客户查看笔记（横线样式） -->
-      <div class="behavior-tip">
+      <!-- 行为提示：多条toast + 超3条收起/展开边界情况 -->
+      <div class="behavior-tips-wrap" id="btips-wrap">
+        <div class="btip-item">
+          <div class="btip-line"></div>
+          <div class="btip-text">对方查看了您的笔记「【五一云南亲子游】3天2夜民宿精选·大理洱海边」</div>
+          <div class="btip-line"></div>
+        </div>
+        <div class="btip-item">
+          <div class="btip-line"></div>
+          <div class="btip-text">对方点赞了您的笔记「云南亲子游避坑指南 2026最新版」</div>
+          <div class="btip-line"></div>
+        </div>
+        <div class="btip-item">
+          <div class="btip-line"></div>
+          <div class="btip-text">对方收藏了您的笔记「大理3天2夜亲子民宿精选」</div>
+          <div class="btip-line"></div>
+        </div>
+        <!-- 超过3条，以下默认收起 -->
+        <div class="btip-item btip-extra hide" id="btip-extra-1">
+          <div class="btip-line"></div>
+          <div class="btip-text">对方浏览了您的主页</div>
+          <div class="btip-line"></div>
+        </div>
+        <div class="btip-item btip-extra hide" id="btip-extra-2">
+          <div class="btip-line"></div>
+          <div class="btip-text">对方点击了商品「云南亲子游5日精品套餐」</div>
+          <div class="btip-line"></div>
+        </div>
+        <!-- 查看更多 / 收起 按钮 -->
         <div class="btip-line"></div>
-        <div class="btip-text">客户查看了笔记「【五一云南亲子游】3天2夜民宿精选·大理洱海边·一家三口超值攻略」😊</div>
+        <div class="btip-more-row" id="btip-more-row">
+          <span class="btip-more-btn" onclick="expandBtips()">查看更多客户动态 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"></polyline></svg></span>
+        </div>
+        <div class="btip-line"></div>
+        <div class="btip-collapse-row hide" id="btip-collapse-row">
+          <span class="btip-more-btn" onclick="collapseBtips()">收起 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"></polyline></svg></span>
+        </div>
         <div class="btip-line"></div>
       </div>
 
@@ -733,12 +804,15 @@ body {
         <div class="uc-left">
           <div class="uc-avatar" style="background:#f5a623;">⚠️</div>
           <div>
-            <div class="uc-name">小红薯6958F37D</div>
+            <div style="position:relative;display:inline-block;">
+              <span class="uc-name">小红薯6958F37D</span>
+              <span style="position:absolute;top:-2px;right:-8px;width:7px;height:7px;border-radius:50%;background:#52c41a;border:1.5px solid #fff;display:inline-block;"></span>
+            </div>
             <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
               <span class="uc-badge">非粉丝</span>
               <span class="uc-badge">女</span>
               <span class="uc-badge">28岁</span>
-              <span class="uc-badge old-client-badge" style="background:#fff0f0;color:#ff2442;cursor:pointer;display:inline-flex;align-items:center;gap:2px;" onclick="showHistory()">老客 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span>
+
             </div>
           </div>
         </div>
@@ -756,6 +830,65 @@ body {
         <div class="uc-meta-row">
           <span class="uc-meta-label">小红书uid</span>
           <span class="uc-meta-val" style="font-size:11px;">64004eb2000000000 1001e037</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 客资信息 -->
+    <div class="sec">
+      <div class="sec-hd" onclick="tog(&#39;info&#39;)">
+        <span class="sec-title">客资信息</span>
+        <svg id="info-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" class="sec-arrow"><polyline points="18 15 12 9 6 15"></polyline></svg>
+      </div>
+      <div class="sec-body" id="info-body">
+        <!-- 内容总结卡片 -->
+        <div class="summary-card" id="summary-card">
+          <div class="summary-header">
+            <span class="summary-label">内容总结</span>
+            <svg class="summary-edit-btn" id="summary-edit-btn" onclick="toggleSummaryEdit()" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="编辑"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          </div>
+          <div class="summary-text" id="summary-text">客户计划五一带家人去云南旅游，一家三口，预算人均3000以内，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</div>
+          <textarea class="summary-textarea hide" id="summary-textarea" maxlength="150" placeholder="输入总结内容（150字以内）">客户计划五一带家人去云南旅游，一家三口，预算人均3000以内，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</textarea>
+          <div class="summary-footer hide" id="summary-footer">
+            <span class="summary-count" id="summary-count">0/150</span>
+            <div style="display:flex;gap:6px;">
+              <button class="summary-cancel-btn" onclick="cancelSummaryEdit()">取消</button>
+              <button class="summary-save-btn" onclick="saveSummaryEdit()">保存</button>
+            </div>
+          </div>
+        </div>
+        <div class="fdivider"></div>
+        <div class="fr">
+          <span class="fl">客资标签</span>
+          <div class="fv">
+            <button class="kz-tag-btn">
+              留客资
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+          </div>
+        </div>
+        <div class="fr">
+          <span class="fl">手机号码</span>
+          <div class="fv">176****1133
+            <svg class="eye-btn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </div>
+        </div>
+        <div class="fr">
+          <span class="fl">微信账号</span>
+          <div class="fv">373***
+            <svg class="eye-btn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </div>
+        </div>
+        <div class="fr">
+          <span class="fl">所属地域</span>
+          <div class="fv">北京市</div>
+        </div>
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl" style="padding-top:2px;">补充备注</span>
+          <div class="fv" style="flex-direction:column;align-items:flex-start;">
+            <span style="font-size:12px;color:#1a1a1a;line-height:18px;">测试HY1234234234234234HHHHHHHH H3哦图rough</span>
+            <span style="font-size:11px;color:#bbb;align-self:flex-end;margin-top:2px;">36/200</span>
+          </div>
         </div>
       </div>
     </div>
@@ -820,14 +953,6 @@ body {
         </div>
       </div>
       <div class="sec-body" id="progress-body">
-
-        <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:2px;">内容总结</span>
-          <div class="fv" style="font-size:12px;color:#1a1a1a;line-height:1.7;">
-            客户计划五一带家人去云南旅游，一家三口，预算人均3000以内，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。
-          </div>
-        </div>
-        <div class="fdivider"></div>
 
         <div class="fr">
           <span class="fl">当前阶段</span>
@@ -910,48 +1035,6 @@ body {
         <div class="fr">
           <span class="fl">投放账户名称/ID</span>
           <div class="fv"><span class="fv-blue">测试名字</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 客资信息 -->
-    <div class="sec">
-      <div class="sec-hd" onclick="tog(&#39;info&#39;)">
-        <span class="sec-title">客资信息</span>
-        <svg id="info-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" class="sec-arrow"><polyline points="18 15 12 9 6 15"></polyline></svg>
-      </div>
-      <div class="sec-body" id="info-body">
-        <div class="fr">
-          <span class="fl">客资标签</span>
-          <div class="fv">
-            <button class="kz-tag-btn">
-              留客资
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </button>
-          </div>
-        </div>
-        <div class="fr">
-          <span class="fl">手机号码</span>
-          <div class="fv">176****1133
-            <svg class="eye-btn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-          </div>
-        </div>
-        <div class="fr">
-          <span class="fl">微信账号</span>
-          <div class="fv">373***
-            <svg class="eye-btn" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
-          </div>
-        </div>
-        <div class="fr">
-          <span class="fl">所属地域</span>
-          <div class="fv">北京市</div>
-        </div>
-        <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:2px;">补充备注</span>
-          <div class="fv" style="flex-direction:column;align-items:flex-start;">
-            <span style="font-size:12px;color:#1a1a1a;line-height:18px;">测试HY1234234234234234HHHHHHHH H3哦图rough</span>
-            <span style="font-size:11px;color:#bbb;align-self:flex-end;margin-top:2px;">36/200</span>
-          </div>
         </div>
       </div>
     </div>
@@ -1077,6 +1160,65 @@ function tog(id) {
   }
 }
 // 初始状态：广告归因、客资信息、信息来源默认展开（箭头朝上）
+
+  // AI tooltip fixed positioning
+  document.querySelectorAll('.ai-tip-icon').forEach(function(icon) {
+    var box = icon.querySelector('.ai-tip-box');
+    if (!box) return;
+    icon.addEventListener('mouseenter', function(e) {
+      var rect = icon.getBoundingClientRect();
+      box.style.display = 'block';
+      box.style.left = (rect.left + rect.width / 2) + 'px';
+      box.style.top = (rect.bottom + 6) + 'px';
+    });
+    icon.addEventListener('mouseleave', function() {
+      box.style.display = 'none';
+    });
+  });
+
+
+  // 行为提醒 展开/收起
+  function expandBtips() {
+    document.querySelectorAll('.btip-extra').forEach(function(el){ el.classList.remove('hide'); });
+    document.getElementById('btip-more-row').classList.add('hide');
+    document.getElementById('btip-collapse-row').classList.remove('hide');
+  }
+  function collapseBtips() {
+    document.querySelectorAll('.btip-extra').forEach(function(el){ el.classList.add('hide'); });
+    document.getElementById('btip-more-row').classList.remove('hide');
+    document.getElementById('btip-collapse-row').classList.add('hide');
+  }
+
+  // 内容总结编辑
+  function toggleSummaryEdit() {
+    var text = document.getElementById('summary-text');
+    var ta = document.getElementById('summary-textarea');
+    var footer = document.getElementById('summary-footer');
+    ta.value = text.textContent.trim();
+    updateSummaryCount();
+    text.classList.add('hide');
+    ta.classList.remove('hide');
+    footer.classList.remove('hide');
+    ta.focus();
+  }
+  function updateSummaryCount() {
+    var ta = document.getElementById('summary-textarea');
+    document.getElementById('summary-count').textContent = ta.value.length + '/150';
+  }
+  function cancelSummaryEdit() {
+    document.getElementById('summary-text').classList.remove('hide');
+    document.getElementById('summary-textarea').classList.add('hide');
+    document.getElementById('summary-footer').classList.add('hide');
+  }
+  function saveSummaryEdit() {
+    var ta = document.getElementById('summary-textarea');
+    document.getElementById('summary-text').textContent = ta.value;
+    cancelSummaryEdit();
+  }
+  // live char count
+  var sumTA = document.getElementById('summary-textarea');
+  if (sumTA) sumTA.addEventListener('input', updateSummaryCount);
+
 </script>
 
 
