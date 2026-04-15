@@ -226,9 +226,12 @@ body {
 .btip-more-btn:hover { color: #555; }
 
 /* 内容总结卡片 */
-.summary-card {
+.summary-card, .ai-insight-card {
   background: #fafafa; border-radius: 6px;
   padding: 8px 10px; margin: 4px 0;
+}
+.ai-insight-text {
+  font-size: 12px; color: #1a1a1a; line-height: 1.7;
 }
 .summary-header {
   display: flex; align-items: center; justify-content: space-between;
@@ -846,23 +849,6 @@ body {
         <svg id="info-arr" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2" stroke-linecap="round" class="sec-arrow"><polyline points="18 15 12 9 6 15"></polyline></svg>
       </div>
       <div class="sec-body" id="info-body">
-        <!-- 内容总结卡片 -->
-        <div class="summary-card" id="summary-card">
-          <div class="summary-header">
-            <span class="summary-label">内容总结</span>
-            <svg class="summary-edit-btn" id="summary-edit-btn" onclick="toggleSummaryEdit()" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="编辑"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-          </div>
-          <div class="summary-text" id="summary-text">客户计划五一带家人去云南旅游，一家三口，预算人均3000以内，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</div>
-          <textarea class="summary-textarea hide" id="summary-textarea" maxlength="150" placeholder="输入总结内容（150字以内）">客户计划五一带家人去云南旅游，一家三口，预算人均3000以内，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</textarea>
-          <div class="summary-footer hide" id="summary-footer">
-            <span class="summary-count" id="summary-count">0/150</span>
-            <div style="display:flex;gap:6px;">
-              <button class="summary-cancel-btn" onclick="cancelSummaryEdit()">取消</button>
-              <button class="summary-save-btn" onclick="saveSummaryEdit()">保存</button>
-            </div>
-          </div>
-        </div>
-        <div class="fdivider"></div>
         <div class="fr">
           <span class="fl">客资标签</span>
           <div class="fv">
@@ -898,66 +884,45 @@ body {
       </div>
     </div>
 
-    <!-- 客户洞察 -->
+    <!-- 跟进信息 -->
     <div class="sec">
       <div class="sec-hd" style="cursor:default;">
-        <span class="sec-title">客户洞察<span class="ai-tip-icon" tabindex="0">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#bbb;vertical-align:middle;cursor:default;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-            <span class="ai-tip-box">AI模型综合客户信息、站内行为、对话内容等智能推理，仅供参考</span>
-          </span></span>
-        <div class="collapse-btn" onclick="tog(&#39;needs&#39;)" title="收起/展开">
-          <svg id="needs-arr" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-        </div>
-      </div>
-      <div class="sec-body" id="needs-body">
-
-        <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:2px;">咨询产品</span>
-          <div class="fv">
-            <span class="ntag" style="background:#f0f7ff;border-color:#91caff;color:#1677ff;">五一云南亲子游3天2夜</span>
-          </div>
-        </div>
-        <div class="fdivider"></div>
-
-        <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:2px;">使用场景</span>
-          <div class="fv" style="flex-wrap:wrap;">
-            <span class="ntag"><span class="ntag-key">节假日出行</span></span>
-            <span class="ntag"><span class="ntag-key">亲子家庭</span></span>
-          </div>
-        </div>
-        <div class="fdivider"></div>
-
-        <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:2px;">预算范围</span>
-          <div class="fv">
-            <span class="editable-field" ondblclick="startEdit(this)" title="双击编辑">人均 3000 以内</span>
-          </div>
-        </div>
-        <div class="fdivider"></div>
-
-        <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:2px;">行为轨迹</span>
-          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:4px;">
-            <div style="display:flex;gap:6px;align-items:center;font-size:12px;">
-              <span style="color:#999;min-width:64px;">最近活跃</span>
-              <span style="color:#1a1a1a;">2026-04-14 10:52</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- 沟通进展 -->
-    <div class="sec">
-      <div class="sec-hd" style="cursor:default;">
-        <span class="sec-title">沟通进展</span>
+        <span class="sec-title">跟进信息</span>
         <div class="collapse-btn" onclick="tog(&#39;progress&#39;)" title="收起/展开">
           <svg id="progress-arr" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
         </div>
       </div>
       <div class="sec-body" id="progress-body">
+
+        <!-- 内容总结卡片 -->
+        <div class="summary-card" id="summary-card">
+          <div class="summary-header">
+            <span class="summary-label">内容总结</span>
+            <svg class="summary-edit-btn" id="summary-edit-btn" onclick="toggleSummaryEdit()" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="编辑"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          </div>
+          <div class="summary-text" id="summary-text">客户计划五一带家人去云南旅游，一家三口，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</div>
+          <textarea class="summary-textarea" id="summary-textarea" maxlength="150" placeholder="输入总结内容（150字以内）" style="display:none;">客户计划五一带家人去云南旅游，一家三口，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</textarea>
+          <div class="summary-footer" id="summary-footer" style="display:none;">
+            <span class="summary-count" id="summary-count">0/150</span>
+            <div style="display:flex;gap:6px;">
+              <button class="summary-cancel-btn" onclick="cancelSummaryEdit()">取消</button>
+              <button class="summary-save-btn" onclick="saveSummaryEdit()">保存</button>
+            </div>
+          </div>
+        </div>
+        <div class="fdivider"></div>
+
+        <!-- AI洞察卡片 -->
+        <div class="ai-insight-card">
+          <div class="summary-header">
+            <span class="summary-label">AI洞察<span class="ai-tip-icon" tabindex="0">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#bbb;vertical-align:middle;cursor:default;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+              <span class="ai-tip-box">AI模型综合客户信息、站内行为、对话内容等智能推理，仅供参考</span>
+            </span></span>
+          </div>
+          <div class="ai-insight-text">预算约人均 3000 元（用户对话中未提及，但近 7 天反复搜索「人均3000 大理旅游」「大理亲子3000以内」）；已关注商家主页，进线前 24 小时内浏览过商家 2 篇笔记，购买意愿较强。</div>
+        </div>
+        <div class="fdivider"></div>
 
         <div class="fr">
           <span class="fl">当前阶段</span>
