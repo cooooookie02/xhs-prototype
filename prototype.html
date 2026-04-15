@@ -206,11 +206,11 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 .btip-line {
-  flex: 1; height: 1px; background: #ff4d4f;
+  flex: 1; height: 1px; background: #e0e0e0;
 }
 .btip-text {
   flex-shrink: 0; padding: 0 10px;
-  font-size: 12px; color: #ff4d4f; white-space: nowrap;
+  font-size: 12px; color: #888; white-space: nowrap;
   line-height: 20px;
 }
 .behavior-tips-wrap { display: flex; flex-direction: column; }
@@ -1201,9 +1201,9 @@ function tog(id) {
     var footer = document.getElementById('summary-footer');
     ta.value = text.textContent.trim();
     updateSummaryCount();
-    text.classList.add('hide');
-    ta.classList.remove('hide');
-    footer.classList.remove('hide');
+    text.style.display = 'none';
+    ta.style.display = 'block';
+    footer.style.display = 'flex';
     ta.focus();
   }
   function updateSummaryCount() {
@@ -1211,14 +1211,17 @@ function tog(id) {
     document.getElementById('summary-count').textContent = ta.value.length + '/150';
   }
   function cancelSummaryEdit() {
-    document.getElementById('summary-text').classList.remove('hide');
-    document.getElementById('summary-textarea').classList.add('hide');
-    document.getElementById('summary-footer').classList.add('hide');
+    document.getElementById('summary-text').style.display = '';
+    document.getElementById('summary-textarea').style.display = 'none';
+    document.getElementById('summary-footer').style.display = 'none';
   }
   function saveSummaryEdit() {
     var ta = document.getElementById('summary-textarea');
-    document.getElementById('summary-text').textContent = ta.value;
-    cancelSummaryEdit();
+    var val = ta.value.trim();
+    if (val) document.getElementById('summary-text').textContent = val;
+    document.getElementById('summary-text').style.display = '';
+    document.getElementById('summary-textarea').style.display = 'none';
+    document.getElementById('summary-footer').style.display = 'none';
   }
   // live char count
   var sumTA = document.getElementById('summary-textarea');
