@@ -909,6 +909,64 @@ body {
       </div>
     </div>
 
+    <!-- AI洞察 -->
+    <div class="sec">
+      <div class="sec-hd" style="cursor:default;">
+        <span class="sec-title">AI洞察</span>
+        <div class="collapse-btn" onclick="tog(&#39;progress&#39;)" title="收起/展开">
+          <svg id="progress-arr" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+        </div>
+      </div>
+      <div class="sec-body" id="progress-body">
+
+        <!-- 内容总结卡片 -->
+        <div class="summary-card" id="summary-card">
+          <div class="summary-header">
+            <span class="summary-label">客户画像</span>
+            <!-- 有内容时显示编辑按钮，空态时隐藏 -->
+            <svg class="summary-edit-btn" id="summary-edit-btn" onclick="toggleSummaryEdit()" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="编辑"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+          </div>
+          <!-- 有内容态 -->
+          <div class="summary-text" id="summary-text">客户计划五一带家人去云南旅游，一家三口，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</div>
+          <!-- 空态：一键总结按钮 -->
+          <div class="summary-empty" id="summary-empty" style="display:none;">
+            <button class="summary-gen-btn" id="summary-gen-btn" onclick="triggerSummaryGen()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
+              一键总结
+            </button>
+          </div>
+          <!-- 生成中态 -->
+          <div class="summary-loading" id="summary-loading" style="display:none;">
+            <span class="summary-loading-text">总结生成中<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></span>
+          </div>
+          <textarea class="summary-textarea" id="summary-textarea" maxlength="150" placeholder="输入总结内容（150字以内）" style="display:none;">客户计划五一带家人去云南旅游，一家三口，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</textarea>
+          <div class="summary-footer" id="summary-footer" style="display:none;">
+            <span class="summary-count" id="summary-count">0/150</span>
+            <div style="display:flex;gap:6px;">
+              <button class="summary-cancel-btn" onclick="cancelSummaryEdit()">取消</button>
+              <button class="summary-save-btn" onclick="saveSummaryEdit()">保存</button>
+            </div>
+          </div>
+        </div>
+        <div class="fdivider"></div>
+
+        <div class="fr" style="align-items:flex-start;">
+          <span class="fl" style="padding-top:2px;">活跃时段</span>
+          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:2px;">
+            <div class="time-row">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              工作日 20:00–22:00
+            </div>
+            <div class="time-row">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+              周末 10:00–12:00
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- 客资信息 -->
     <div class="sec">
       <div class="sec-hd" onclick="tog(&#39;info&#39;)">
@@ -948,110 +1006,6 @@ body {
             <span style="font-size:11px;color:#bbb;align-self:flex-end;margin-top:2px;">36/200</span>
           </div>
         </div>
-      </div>
-    </div>
-
-    <!-- 跟进信息 -->
-    <div class="sec">
-      <div class="sec-hd" style="cursor:default;">
-        <span class="sec-title">跟进信息</span>
-        <div class="collapse-btn" onclick="tog(&#39;progress&#39;)" title="收起/展开">
-          <svg id="progress-arr" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
-        </div>
-      </div>
-      <div class="sec-body" id="progress-body">
-
-        <!-- 内容总结卡片 -->
-        <div class="summary-card" id="summary-card">
-          <div class="summary-header">
-            <span class="summary-label">内容总结</span>
-            <!-- 有内容时显示编辑按钮，空态时隐藏 -->
-            <svg class="summary-edit-btn" id="summary-edit-btn" onclick="toggleSummaryEdit()" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="编辑"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
-          </div>
-          <!-- 有内容态 -->
-          <div class="summary-text" id="summary-text">客户计划五一带家人去云南旅游，一家三口，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</div>
-          <!-- 空态：一键总结按钮 -->
-          <div class="summary-empty" id="summary-empty" style="display:none;">
-            <button class="summary-gen-btn" id="summary-gen-btn" onclick="triggerSummaryGen()">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
-              一键总结
-            </button>
-          </div>
-          <!-- 生成中态 -->
-          <div class="summary-loading" id="summary-loading" style="display:none;">
-            <span class="summary-loading-text">总结生成中<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></span>
-          </div>
-          <textarea class="summary-textarea" id="summary-textarea" maxlength="150" placeholder="输入总结内容（150字以内）" style="display:none;">客户计划五一带家人去云南旅游，一家三口，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</textarea>
-          <div class="summary-footer" id="summary-footer" style="display:none;">
-            <span class="summary-count" id="summary-count">0/150</span>
-            <div style="display:flex;gap:6px;">
-              <button class="summary-cancel-btn" onclick="cancelSummaryEdit()">取消</button>
-              <button class="summary-save-btn" onclick="saveSummaryEdit()">保存</button>
-            </div>
-          </div>
-        </div>
-        <div class="fdivider"></div>
-
-        <!-- AI洞察卡片 -->
-        <div class="ai-insight-card">
-          <div class="summary-header">
-            <span class="summary-label">AI洞察<span class="ai-tip-icon" tabindex="0">
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#bbb;vertical-align:middle;cursor:default;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-              <span class="ai-tip-box">AI模型综合客户信息、站内行为、对话内容等智能推理，仅供参考</span>
-            </span></span>
-          </div>
-          <div class="ai-insight-text">该用户预算可能在人均 3000 元上下，可推荐同价位套餐或突出性价比亮点；比较关注亲子民宿，可重点介绍大理/洱海周边亲子民宿产品。</div>
-        </div>
-        <div class="fdivider"></div>
-
-        <div class="fr">
-          <span class="fl">当前阶段</span>
-          <div class="fv">
-            <div class="stage-pill"><span class="stage-dot"></span>意向期</div>
-            <span class="stage-days" style="margin-left:6px;">已停留 3 天</span>
-          </div>
-        </div>
-        <div class="fdivider"></div>
-
-        <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:2px;">核心顾虑</span>
-          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:4px;">
-            <span class="concern-tag">价格顾虑</span>
-            <div class="concern-quote">「能不能再便宜点，另一家更便宜」</div>
-          </div>
-        </div>
-        <div class="fdivider"></div>
-
-        <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:2px;">风险提醒</span>
-          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:4px;">
-            <div style="display:flex;align-items:center;gap:5px;">
-              <span style="width:6px;height:6px;border-radius:50%;background:#999;flex-shrink:0;"></span>
-              <span style="font-size:12px;color:#333;">主动提及竞品</span>
-            </div>
-            <div style="display:flex;align-items:center;gap:5px;">
-              <span style="width:6px;height:6px;border-radius:50%;background:#999;flex-shrink:0;"></span>
-              <span style="font-size:12px;color:#333;">沉默超 3 天，流失风险高</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="fdivider"></div>
-
-        <div class="fr" style="align-items:flex-start;">
-          <span class="fl" style="padding-top:2px;">活跃时段</span>
-          <div class="fv" style="flex-direction:column;align-items:flex-start;gap:2px;">
-            <div class="time-row">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-              工作日 20:00–22:00
-            </div>
-            <div class="time-row">
-              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-              周末 10:00–12:00
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
