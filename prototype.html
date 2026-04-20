@@ -405,8 +405,8 @@ body {
 .portrait-tip-box {
   display: none;
   position: absolute;
-  left: 50%; top: calc(100% + 6px);
-  transform: translateX(-50%);
+  left: auto; right: -8px; top: calc(100% + 6px);
+  transform: none;
   background: rgba(30,30,30,0.88);
   color: #fff;
   font-size: 11px;
@@ -421,8 +421,8 @@ body {
 .portrait-tip-box::before {
   content: '';
   position: absolute;
-  bottom: 100%; left: 50%;
-  transform: translateX(-50%);
+  bottom: 100%; right: 10px; left: auto;
+  transform: none;
   border: 5px solid transparent;
   border-bottom-color: rgba(30,30,30,0.88);
 }
@@ -963,7 +963,7 @@ body {
             <svg class="summary-edit-btn" id="summary-edit-btn" onclick="toggleSummaryEdit()" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="编辑"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
           </div>
           <!-- 有内容态 -->
-          <div class="summary-text" id="summary-text">客户计划五一带家人去云南旅游，一家三口，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</div>
+          <div class="summary-text" id="summary-text">五一带家人去云南大理，一家三口、孩子6岁，推断为母亲角色，偏好品质定制化体验型产品，而非普通跟团游。关注竞品中，正在比价、价格敏感，消费力中高。</div>
           <!-- 空态：一键总结按钮 -->
           <div class="summary-empty" id="summary-empty" style="display:none;">
             <button class="summary-gen-btn" id="summary-gen-btn" onclick="triggerSummaryGen()">
@@ -975,7 +975,7 @@ body {
           <div class="summary-loading" id="summary-loading" style="display:none;">
             <span class="summary-loading-text">总结生成中<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></span>
           </div>
-          <textarea class="summary-textarea" id="summary-textarea" maxlength="150" placeholder="输入总结内容（150字以内）" style="display:none;">客户计划五一带家人去云南旅游，一家三口，对民宿和亲子玩法感兴趣，多次询价并提及在看其他家，价格顾虑明显。</textarea>
+          <textarea class="summary-textarea" id="summary-textarea" maxlength="150" placeholder="输入总结内容（150字以内）" style="display:none;">五一带家人去云南大理，一家三口、孩子6岁，推断为母亲角色，偏好品质定制化体验型产品，而非普通跟团游。关注竞品中，正在比价、价格敏感，消费力中高。</textarea>
           <div class="summary-footer" id="summary-footer" style="display:none;">
             <span class="summary-count" id="summary-count">0/150</span>
             <div style="display:flex;gap:6px;">
@@ -992,8 +992,8 @@ body {
             <span class="summary-label">推荐回复</span>
             <svg class="summary-edit-btn" id="script-edit-btn" onclick="toggleScriptEdit()" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="编辑"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
           </div>
-          <div class="summary-text" id="script-text">您好～五一大理亲子套餐非常抢手，我们民宿在洱海边、含早餐和儿童专属活动，品质有保障。我帮您申请一个内部优惠价，您看方便留个联系方式吗？</div>
-          <textarea class="summary-textarea" id="script-textarea" maxlength="200" placeholder="输入推荐回复（200字以内）" style="display:none;">您好～五一大理亲子套餐非常抢手，我们民宿在洱海边、含早餐和儿童专属活动，品质有保障。我帮您申请一个内部优惠价，您看方便留个联系方式吗？</textarea>
+          <div class="summary-text" id="script-text">您好~五一大理亲子套餐非常抢手，咱家含早餐和儿童扎染体验，6岁宝宝正好能参加。不同套餐含的服务不一样，我把我们和其他家的详细对比整理好发您，加个微信方便发资料~</div>
+          <textarea class="summary-textarea" id="script-textarea" maxlength="200" placeholder="输入推荐回复（200字以内）" style="display:none;">您好~五一大理亲子套餐非常抢手，咱家含早餐和儿童扎染体验，6岁宝宝正好能参加。不同套餐含的服务不一样，我把我们和其他家的详细对比整理好发您，加个微信方便发资料~</textarea>
           <!-- 正常态：采纳按钮 -->
           <div id="script-adopt-bar" style="display:flex;justify-content:flex-end;margin-top:8px;">
             <button onclick="adoptScript()" style="background:#FF2442;color:#fff;border:none;border-radius:12px;padding:4px 14px;font-size:12px;cursor:pointer;font-weight:500;line-height:1.6;transition:opacity .15s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">采纳</button>
