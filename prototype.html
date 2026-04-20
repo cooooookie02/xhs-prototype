@@ -404,29 +404,20 @@ body {
 .portrait-tip-icon { display: block; }
 .portrait-tip-box {
   display: none;
-  position: absolute;
-  left: auto; right: -8px; top: calc(100% + 6px);
-  transform: none;
+  position: fixed;
   background: rgba(30,30,30,0.88);
   color: #fff;
   font-size: 11px;
   line-height: 1.55;
   padding: 6px 9px;
   border-radius: 6px;
-  white-space: nowrap;
-  z-index: 999;
+  white-space: normal;
+  width: 210px;
+  z-index: 9999;
   pointer-events: none;
   box-shadow: 0 2px 8px rgba(0,0,0,.18);
 }
-.portrait-tip-box::before {
-  content: '';
-  position: absolute;
-  bottom: 100%; right: 10px; left: auto;
-  transform: none;
-  border: 5px solid transparent;
-  border-bottom-color: rgba(30,30,30,0.88);
-}
-.portrait-tip-wrap:hover .portrait-tip-box { display: block; }
+/* tooltip 显示由 JS 控制 */
 
 /* ── 客户画像 NEW ── */
 .portrait-sec { border-bottom: 1px solid #f0f0f0; }
@@ -1370,6 +1361,24 @@ function tog(id) {
   }
   var scriptTA = document.getElementById('script-textarea');
   if (scriptTA) scriptTA.addEventListener('input', updateScriptCount);
+
+  // 问号 tooltip：用 fixed 定位跟随图标，避免被父容器裁剪
+  var tipIcon = document.querySelector('.portrait-tip-icon');
+  var tipBox  = document.querySelector('.portrait-tip-box');
+  if (tipIcon && tipBox) {
+    tipIcon.addEventListener('mouseenter', function() {
+      var r = tipIcon.getBoundingClientRect();
+      // 气泡宽210px，尽量靠右但不超出视口
+      var left = Math.min(r.right - 210, window.innerWidth - 218);
+      if (left < 4) left = 4;
+      tipBox.style.top  = (r.bottom + 6) + 'px';
+      tipBox.style.left = left + 'px';
+      tipBox.style.display = 'block';
+    });
+    tipIcon.addEventListener('mouseleave', function() {
+      tipBox.style.display = 'none';
+    });
+  }
 
 </script>
 
