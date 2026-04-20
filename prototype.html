@@ -950,14 +950,19 @@ body {
         </div>
         <div class="fdivider"></div>
 
-        <!-- 建议话术卡片 -->
+        <!-- 推荐回复卡片 -->
         <div class="summary-card" id="script-card">
           <div class="summary-header">
-            <span class="summary-label">建议话术</span>
+            <span class="summary-label">推荐回复</span>
             <svg class="summary-edit-btn" id="script-edit-btn" onclick="toggleScriptEdit()" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" title="编辑"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
           </div>
           <div class="summary-text" id="script-text">您好～五一大理亲子套餐非常抢手，我们民宿在洱海边、含早餐和儿童专属活动，品质有保障。我帮您申请一个内部优惠价，您看方便留个联系方式吗？</div>
-          <textarea class="summary-textarea" id="script-textarea" maxlength="200" placeholder="输入建议话术（200字以内）" style="display:none;">您好～五一大理亲子套餐非常抢手，我们民宿在洱海边、含早餐和儿童专属活动，品质有保障。我帮您申请一个内部优惠价，您看方便留个联系方式吗？</textarea>
+          <textarea class="summary-textarea" id="script-textarea" maxlength="200" placeholder="输入推荐回复（200字以内）" style="display:none;">您好～五一大理亲子套餐非常抢手，我们民宿在洱海边、含早餐和儿童专属活动，品质有保障。我帮您申请一个内部优惠价，您看方便留个联系方式吗？</textarea>
+          <!-- 正常态：采纳按钮 -->
+          <div id="script-adopt-bar" style="display:flex;justify-content:flex-end;margin-top:8px;">
+            <button onclick="adoptScript()" style="background:#FF2442;color:#fff;border:none;border-radius:12px;padding:4px 14px;font-size:12px;cursor:pointer;font-weight:500;line-height:1.6;transition:opacity .15s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">采纳</button>
+          </div>
+          <!-- 编辑态：取消/保存 -->
           <div class="summary-footer" id="script-footer" style="display:none;">
             <span class="summary-count" id="script-count">0/200</span>
             <div style="display:flex;gap:6px;">
@@ -1277,10 +1282,28 @@ function tog(id) {
   var sumTA = document.getElementById('summary-textarea');
   if (sumTA) sumTA.addEventListener('input', updateSummaryCount);
 
-  // 建议话术编辑
+  // 推荐回复：采纳 → 填入对话框
+  function adoptScript() {
+    var text = document.getElementById('script-text').textContent.trim();
+    var chatTA = document.querySelector('.chat-textarea');
+    if (!chatTA || !text) return;
+    chatTA.value = text;
+    chatTA.focus();
+    // 触发 input 事件，让字符计数等联动更新
+    chatTA.dispatchEvent(new Event('input'));
+    // 视觉反馈：按钮短暂变为"已采纳✓"
+    var btn = document.querySelector('#script-adopt-bar button');
+    var orig = btn.textContent;
+    btn.textContent = '已采纳 ✓';
+    btn.style.background = '#34c759';
+    setTimeout(function(){ btn.textContent = orig; btn.style.background = '#FF2442'; }, 1500);
+  }
+
+  // 推荐回复编辑
   function toggleScriptEdit() {
     document.getElementById('script-text').style.display = 'none';
     document.getElementById('script-edit-btn').style.display = 'none';
+    document.getElementById('script-adopt-bar').style.display = 'none';
     var ta = document.getElementById('script-textarea');
     ta.style.display = '';
     ta.value = document.getElementById('script-text').textContent.trim();
@@ -1295,6 +1318,7 @@ function tog(id) {
   function cancelScriptEdit() {
     document.getElementById('script-text').style.display = '';
     document.getElementById('script-edit-btn').style.display = '';
+    document.getElementById('script-adopt-bar').style.display = 'flex';
     document.getElementById('script-textarea').style.display = 'none';
     document.getElementById('script-footer').style.display = 'none';
   }
@@ -1304,6 +1328,7 @@ function tog(id) {
     if (val) document.getElementById('script-text').textContent = val;
     document.getElementById('script-text').style.display = '';
     document.getElementById('script-edit-btn').style.display = '';
+    document.getElementById('script-adopt-bar').style.display = 'flex';
     document.getElementById('script-textarea').style.display = 'none';
     document.getElementById('script-footer').style.display = 'none';
   }
