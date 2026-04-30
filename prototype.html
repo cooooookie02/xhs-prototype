@@ -98,6 +98,27 @@ body {
 .session-list { flex: 1; overflow-y: auto; }
 .session-list::-webkit-scrollbar { width: 0; }
 
+/* ══ 线索管理列表 ══ */
+.leads-list { flex: 1; overflow-y: auto; display: none; flex-direction: column; }
+.leads-list::-webkit-scrollbar { width: 0; }
+.lead-item {
+  padding: 10px 12px; border-bottom: 1px solid #f5f5f5;
+  cursor: pointer; transition: background .15s;
+}
+.lead-item:hover { background: #f9f9f9; }
+.lead-item.active { background: #f0f0f0; }
+.lead-row1 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
+.lead-nick { font-size: 13px; font-weight: 500; color: #1a1a1a; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lead-time { font-size: 11px; color: #bbb; flex-shrink: 0; }
+.lead-uid { font-size: 11px; color: #bbb; margin-bottom: 4px; font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lead-row2 { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
+.lead-portrait { font-size: 11px; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px; }
+.lead-tag { font-size: 10px; padding: 1px 5px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
+.lead-tag-phone { background: #e6f7e6; color: #389e0d; }
+.lead-tag-wx { background: #e8f3ff; color: #1677ff; }
+.lead-tag-form { background: #fff7e6; color: #fa8c16; }
+.lead-tag-dm { background: #f0f0f0; color: #666; }
+
 .sitem {
   display: flex; align-items: flex-start; gap: 10px;
   padding: 10px 12px; cursor: pointer;
@@ -546,10 +567,11 @@ body {
       </div>
     </div>
     <div class="sessions-tabs">
-      <div class="stab active">当前会话</div>
-      <div class="stab">全部会话</div>
+      <div class="stab active" onclick="switchSessionTab('current',this)">当前会话</div>
+      <div class="stab" onclick="switchSessionTab('all',this)">全部会话</div>
+      <div class="stab" onclick="switchSessionTab('leads',this)">线索管理</div>
     </div>
-    <div class="session-list">
+    <div class="session-list" id="session-list-wrap">
 
       <!-- 会话1：热意向 + AI接待中 -->
       <div class="sitem">
@@ -697,6 +719,139 @@ body {
       </div>
 
     </div>
+
+    <!-- 线索管理列表 -->
+    <div class="leads-list" id="leads-list-wrap">
+
+      <!-- 线索条目 1 -->
+      <div class="lead-item" onclick="selectLead(this)">
+        <div class="lead-row1">
+          <span class="lead-nick">小红薯69EB236F</span>
+          <span class="lead-time">04-30 11:00</span>
+        </div>
+        <div class="lead-uid">69e9e0460000000002002800</div>
+        <div class="lead-row2">
+          <span class="lead-portrait">初中生家长，关注英语提分，价格敏感</span>
+        </div>
+        <div class="lead-row2" style="margin-top:4px;">
+          <span class="lead-tag lead-tag-phone">📞 已留电话</span>
+          <span class="lead-tag lead-tag-wx">微信已留</span>
+          <span class="lead-tag lead-tag-dm">私信</span>
+        </div>
+      </div>
+
+      <!-- 线索条目 2 -->
+      <div class="lead-item" onclick="selectLead(this)">
+        <div class="lead-row1">
+          <span class="lead-nick">晨曦妈妈</span>
+          <span class="lead-time">04-27 16:22</span>
+        </div>
+        <div class="lead-uid">68ab12340000000001234567</div>
+        <div class="lead-row2">
+          <span class="lead-portrait">小学二年级家长，关注英语启蒙</span>
+        </div>
+        <div class="lead-row2" style="margin-top:4px;">
+          <span class="lead-tag lead-tag-phone">📞 已留电话</span>
+          <span class="lead-tag lead-tag-wx">微信已留</span>
+          <span class="lead-tag lead-tag-dm">私信</span>
+        </div>
+      </div>
+
+      <!-- 线索条目 3 -->
+      <div class="lead-item" onclick="selectLead(this)">
+        <div class="lead-row1">
+          <span class="lead-nick">王小明</span>
+          <span class="lead-time">04-27 14:30</span>
+        </div>
+        <div class="lead-uid">71cd98760000000003401b2e</div>
+        <div class="lead-row2">
+          <span class="lead-portrait">高一理科生，物理薄弱</span>
+        </div>
+        <div class="lead-row2" style="margin-top:4px;">
+          <span class="lead-tag lead-tag-dm">私信</span>
+        </div>
+      </div>
+
+      <!-- 线索条目 4 -->
+      <div class="lead-item" onclick="selectLead(this)">
+        <div class="lead-row1">
+          <span class="lead-nick">花花园艺</span>
+          <span class="lead-time">04-26 20:44</span>
+        </div>
+        <div class="lead-uid">65aa33210000000002805c9a</div>
+        <div class="lead-row2">
+          <span class="lead-portrait">宝妈，关注亲子手工课</span>
+        </div>
+        <div class="lead-row2" style="margin-top:4px;">
+          <span class="lead-tag lead-tag-wx">微信已留</span>
+          <span class="lead-tag lead-tag-form">评论</span>
+        </div>
+      </div>
+
+      <!-- 线索条目 5 -->
+      <div class="lead-item" onclick="selectLead(this)">
+        <div class="lead-row1">
+          <span class="lead-nick">阿俊爸爸</span>
+          <span class="lead-time">04-26 10:20</span>
+        </div>
+        <div class="lead-uid">70bc56780000000014030d4f</div>
+        <div class="lead-row2">
+          <span class="lead-portrait">高二家长，关注化学竞赛</span>
+        </div>
+        <div class="lead-row2" style="margin-top:4px;">
+          <span class="lead-tag lead-tag-phone">📞 已留电话</span>
+          <span class="lead-tag lead-tag-wx">微信已留</span>
+          <span class="lead-tag lead-tag-form">表单</span>
+        </div>
+      </div>
+
+      <!-- 线索条目 6 -->
+      <div class="lead-item" onclick="selectLead(this)">
+        <div class="lead-row1">
+          <span class="lead-nick">小红薯6979D266</span>
+          <span class="lead-time">04-27 19:52</span>
+        </div>
+        <div class="lead-uid">6979d234000000002400d731</div>
+        <div class="lead-row2">
+          <span class="lead-portrait">小学生家长，关注语文阅读提升</span>
+        </div>
+        <div class="lead-row2" style="margin-top:4px;">
+          <span class="lead-tag lead-tag-form">表单</span>
+        </div>
+      </div>
+
+      <!-- 线索条目 7 -->
+      <div class="lead-item" onclick="selectLead(this)">
+        <div class="lead-row1">
+          <span class="lead-nick">小红薯69BCFDCA</span>
+          <span class="lead-time">04-29 20:06</span>
+        </div>
+        <div class="lead-uid">69bcbf76000000003402a05c</div>
+        <div class="lead-row2">
+          <span class="lead-portrait">高中家长，关注数学竞赛辅导</span>
+        </div>
+        <div class="lead-row2" style="margin-top:4px;">
+          <span class="lead-tag lead-tag-dm">私信</span>
+        </div>
+      </div>
+
+      <!-- 线索条目 8 -->
+      <div class="lead-item" onclick="selectLead(this)">
+        <div class="lead-row1">
+          <span class="lead-nick">小红薯69CDB878</span>
+          <span class="lead-time">04-27 19:40</span>
+        </div>
+        <div class="lead-uid">69ccd484000000003302101f</div>
+        <div class="lead-row2">
+          <span class="lead-portrait">初三家长，关注中考数学</span>
+        </div>
+        <div class="lead-row2" style="margin-top:4px;">
+          <span class="lead-tag lead-tag-dm">私信</span>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
   <!-- 聊天区 -->
@@ -1355,6 +1510,31 @@ function tog(id) {
   }
   var scriptTA = document.getElementById('script-textarea');
   if (scriptTA) scriptTA.addEventListener('input', updateScriptCount);
+
+  // ── 左侧 tab 切换：当前会话 / 全部会话 / 线索管理 ──
+  function switchSessionTab(type, el) {
+    // 更新 tab 高亮
+    document.querySelectorAll('.sessions-tabs .stab').forEach(function(t) {
+      t.classList.remove('active');
+    });
+    el.classList.add('active');
+    // 切换列表区显示
+    var sessionList = document.getElementById('session-list-wrap');
+    var leadsList = document.getElementById('leads-list-wrap');
+    if (type === 'leads') {
+      sessionList.style.display = 'none';
+      leadsList.style.display = 'flex';
+    } else {
+      sessionList.style.display = '';
+      leadsList.style.display = 'none';
+    }
+  }
+
+  // 线索条目点击高亮
+  function selectLead(el) {
+    document.querySelectorAll('.lead-item').forEach(function(i) { i.classList.remove('active'); });
+    el.classList.add('active');
+  }
 
   // 问号 tooltip：用 fixed 定位跟随图标，避免被父容器裁剪
   var tipIcon = document.querySelector('.portrait-tip-icon');
