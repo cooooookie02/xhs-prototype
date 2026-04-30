@@ -98,26 +98,77 @@ body {
 .session-list { flex: 1; overflow-y: auto; }
 .session-list::-webkit-scrollbar { width: 0; }
 
-/* ══ 线索管理列表 ══ */
-.leads-list { flex: 1; overflow-y: auto; display: none; flex-direction: column; }
-.leads-list::-webkit-scrollbar { width: 0; }
-.lead-item {
-  padding: 10px 12px; border-bottom: 1px solid #f5f5f5;
-  cursor: pointer; transition: background .15s;
+/* ══ 线索管理全屏页 ══ */
+#page-leads {
+  display: none; flex: 1; flex-direction: column;
+  background: #f7f7f7; overflow: hidden;
 }
-.lead-item:hover { background: #f9f9f9; }
-.lead-item.active { background: #f0f0f0; }
-.lead-row1 { display: flex; align-items: center; justify-content: space-between; margin-bottom: 3px; }
-.lead-nick { font-size: 13px; font-weight: 500; color: #1a1a1a; max-width: 130px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.lead-time { font-size: 11px; color: #bbb; flex-shrink: 0; }
-.lead-uid { font-size: 11px; color: #bbb; margin-bottom: 4px; font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.lead-row2 { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
-.lead-portrait { font-size: 11px; color: #666; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 170px; }
-.lead-tag { font-size: 10px; padding: 1px 5px; border-radius: 3px; white-space: nowrap; flex-shrink: 0; }
-.lead-tag-phone { background: #e6f7e6; color: #389e0d; }
-.lead-tag-wx { background: #e8f3ff; color: #1677ff; }
-.lead-tag-form { background: #fff7e6; color: #fa8c16; }
-.lead-tag-dm { background: #f0f0f0; color: #666; }
+.leads-toolbar {
+  padding: 12px 20px; background: #fff;
+  border-bottom: 1px solid #e8e8e8;
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.leads-toolbar input, .leads-toolbar select {
+  height: 30px; border: 1px solid #e0e0e0; border-radius: 6px;
+  padding: 0 10px; font-size: 12px; color: #333; outline: none;
+  background: #fff;
+}
+.leads-toolbar input:focus, .leads-toolbar select:focus { border-color: #ff2442; }
+.leads-toolbar label { font-size: 12px; color: #888; white-space: nowrap; }
+.leads-toolbar .tbar-btn {
+  height: 30px; padding: 0 14px; border-radius: 6px; font-size: 12px;
+  border: 1px solid #e0e0e0; background: #fff; color: #555; cursor: pointer;
+}
+.leads-toolbar .tbar-btn:hover { border-color: #ff2442; color: #ff2442; }
+.leads-toolbar .tbar-export {
+  margin-left: auto; height: 30px; padding: 0 14px; border-radius: 6px;
+  font-size: 12px; border: 1px solid #e0e0e0; background: #fff; color: #555; cursor: pointer;
+}
+.leads-table-wrap {
+  flex: 1; overflow: auto; padding: 16px 20px;
+}
+.leads-table {
+  width: 100%; border-collapse: collapse; background: #fff;
+  border-radius: 8px; overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+  font-size: 12px;
+}
+.leads-table th {
+  padding: 10px 12px; background: #fafafa; color: #888; font-weight: 500;
+  text-align: left; white-space: nowrap; border-bottom: 1px solid #f0f0f0;
+  position: sticky; top: 0; z-index: 1;
+}
+.leads-table td {
+  padding: 10px 12px; border-bottom: 1px solid #f7f7f7;
+  color: #1a1a1a; vertical-align: middle; white-space: nowrap;
+}
+.leads-table tr:last-child td { border-bottom: none; }
+.leads-table tr:hover td { background: #fffafa; }
+.lt-nick { font-weight: 500; max-width: 110px; overflow: hidden; text-overflow: ellipsis; }
+.lt-uid { color: #bbb; font-family: monospace; font-size: 11px; max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
+.lt-portrait { max-width: 140px; overflow: hidden; text-overflow: ellipsis; color: #555; }
+.lt-suggest { max-width: 140px; overflow: hidden; text-overflow: ellipsis; color: #389e0d; }
+.lt-dim { color: #bbb; }
+.lt-tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 3px; white-space: nowrap; }
+.lt-tag-phone { background: #e6f7e6; color: #389e0d; }
+.lt-tag-wx { background: #e8f3ff; color: #1677ff; }
+.lt-tag-form { background: #fff7e6; color: #fa8c16; }
+.lt-tag-comment { background: #f6edff; color: #7c3aed; }
+.lt-tag-dm { background: #f0f0f0; color: #666; }
+.lt-op { color: #ff2442; cursor: pointer; font-size: 12px; }
+.lt-op:hover { text-decoration: underline; }
+.leads-pager {
+  padding: 10px 20px; background: #fff; border-top: 1px solid #f0f0f0;
+  display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: #888;
+}
+.leads-pager .pager-btns { display: flex; gap: 4px; }
+.pager-btn {
+  min-width: 28px; height: 28px; border: 1px solid #e0e0e0;
+  border-radius: 4px; background: #fff; font-size: 12px;
+  color: #555; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+.pager-btn.active { border-color: #ff2442; color: #ff2442; background: #fff5f5; }
+.pager-btn:hover:not(.active) { border-color: #bbb; }
 
 .sitem {
   display: flex; align-items: flex-start; gap: 10px;
@@ -522,33 +573,21 @@ body {
   <!-- 左侧导航 -->
   <div class="nav">
     <div class="nav-avatar">🐻</div>
-    <div class="nav-item active">
+    <div class="nav-item active" id="nav-chat" onclick="switchMainPage('chat')">
       <div class="nav-icon">💬</div>
-      <div class="nav-label">私信</div>
+      <div class="nav-label">私信对话</div>
     </div>
-    <div class="nav-item">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"></circle><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"></path></svg>
-      <div class="nav-label">潜客</div>
-    </div>
-    <div class="nav-item">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
-      <div class="nav-label">会话管理</div>
-    </div>
-    <div class="nav-item">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-      <div class="nav-label">数据</div>
-    </div>
-    <div class="nav-item">
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20z"></path><path d="M12 6v6l4 2"></path></svg>
-      <div class="nav-label">小助手</div>
+    <div class="nav-item" id="nav-leads" onclick="switchMainPage('leads')">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+      <div class="nav-label">线索管理</div>
     </div>
     <div class="nav-spacer"></div>
     <div class="nav-bottom">
-      <div class="nav-item">
+      <div class="nav-item" style="opacity:.4;cursor:default;">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="6" height="6" rx="1"></rect><rect x="2" y="13" width="6" height="6" rx="1"></rect><rect x="10" y="3" width="12" height="6" rx="1"></rect><rect x="10" y="13" width="12" height="6" rx="1"></rect></svg>
         <div class="nav-label">工具</div>
       </div>
-      <div class="nav-item">
+      <div class="nav-item" style="opacity:.4;cursor:default;">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.07 4.93l-1.41 1.41M4.93 4.93l1.41 1.41M12 2v2M12 20v2M20 12h2M2 12h2M19.07 19.07l-1.41-1.41M4.93 19.07l1.41-1.41"></path></svg>
         <div class="nav-label">设置</div>
       </div>
@@ -567,9 +606,8 @@ body {
       </div>
     </div>
     <div class="sessions-tabs">
-      <div class="stab active" onclick="switchSessionTab('current',this)">当前会话</div>
-      <div class="stab" onclick="switchSessionTab('all',this)">全部会话</div>
-      <div class="stab" onclick="switchSessionTab('leads',this)">线索管理</div>
+      <div class="stab active">当前会话</div>
+      <div class="stab">全部会话</div>
     </div>
     <div class="session-list" id="session-list-wrap">
 
@@ -715,138 +753,6 @@ body {
             <span class="stag stag-blue">AI接待中</span>
             <span class="stag stag-green">高潜成交</span>
           </div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- 线索管理列表 -->
-    <div class="leads-list" id="leads-list-wrap">
-
-      <!-- 线索条目 1 -->
-      <div class="lead-item" onclick="selectLead(this)">
-        <div class="lead-row1">
-          <span class="lead-nick">小红薯69EB236F</span>
-          <span class="lead-time">04-30 11:00</span>
-        </div>
-        <div class="lead-uid">69e9e0460000000002002800</div>
-        <div class="lead-row2">
-          <span class="lead-portrait">初中生家长，关注英语提分，价格敏感</span>
-        </div>
-        <div class="lead-row2" style="margin-top:4px;">
-          <span class="lead-tag lead-tag-phone">📞 已留电话</span>
-          <span class="lead-tag lead-tag-wx">微信已留</span>
-          <span class="lead-tag lead-tag-dm">私信</span>
-        </div>
-      </div>
-
-      <!-- 线索条目 2 -->
-      <div class="lead-item" onclick="selectLead(this)">
-        <div class="lead-row1">
-          <span class="lead-nick">晨曦妈妈</span>
-          <span class="lead-time">04-27 16:22</span>
-        </div>
-        <div class="lead-uid">68ab12340000000001234567</div>
-        <div class="lead-row2">
-          <span class="lead-portrait">小学二年级家长，关注英语启蒙</span>
-        </div>
-        <div class="lead-row2" style="margin-top:4px;">
-          <span class="lead-tag lead-tag-phone">📞 已留电话</span>
-          <span class="lead-tag lead-tag-wx">微信已留</span>
-          <span class="lead-tag lead-tag-dm">私信</span>
-        </div>
-      </div>
-
-      <!-- 线索条目 3 -->
-      <div class="lead-item" onclick="selectLead(this)">
-        <div class="lead-row1">
-          <span class="lead-nick">王小明</span>
-          <span class="lead-time">04-27 14:30</span>
-        </div>
-        <div class="lead-uid">71cd98760000000003401b2e</div>
-        <div class="lead-row2">
-          <span class="lead-portrait">高一理科生，物理薄弱</span>
-        </div>
-        <div class="lead-row2" style="margin-top:4px;">
-          <span class="lead-tag lead-tag-dm">私信</span>
-        </div>
-      </div>
-
-      <!-- 线索条目 4 -->
-      <div class="lead-item" onclick="selectLead(this)">
-        <div class="lead-row1">
-          <span class="lead-nick">花花园艺</span>
-          <span class="lead-time">04-26 20:44</span>
-        </div>
-        <div class="lead-uid">65aa33210000000002805c9a</div>
-        <div class="lead-row2">
-          <span class="lead-portrait">宝妈，关注亲子手工课</span>
-        </div>
-        <div class="lead-row2" style="margin-top:4px;">
-          <span class="lead-tag lead-tag-wx">微信已留</span>
-          <span class="lead-tag lead-tag-form">评论</span>
-        </div>
-      </div>
-
-      <!-- 线索条目 5 -->
-      <div class="lead-item" onclick="selectLead(this)">
-        <div class="lead-row1">
-          <span class="lead-nick">阿俊爸爸</span>
-          <span class="lead-time">04-26 10:20</span>
-        </div>
-        <div class="lead-uid">70bc56780000000014030d4f</div>
-        <div class="lead-row2">
-          <span class="lead-portrait">高二家长，关注化学竞赛</span>
-        </div>
-        <div class="lead-row2" style="margin-top:4px;">
-          <span class="lead-tag lead-tag-phone">📞 已留电话</span>
-          <span class="lead-tag lead-tag-wx">微信已留</span>
-          <span class="lead-tag lead-tag-form">表单</span>
-        </div>
-      </div>
-
-      <!-- 线索条目 6 -->
-      <div class="lead-item" onclick="selectLead(this)">
-        <div class="lead-row1">
-          <span class="lead-nick">小红薯6979D266</span>
-          <span class="lead-time">04-27 19:52</span>
-        </div>
-        <div class="lead-uid">6979d234000000002400d731</div>
-        <div class="lead-row2">
-          <span class="lead-portrait">小学生家长，关注语文阅读提升</span>
-        </div>
-        <div class="lead-row2" style="margin-top:4px;">
-          <span class="lead-tag lead-tag-form">表单</span>
-        </div>
-      </div>
-
-      <!-- 线索条目 7 -->
-      <div class="lead-item" onclick="selectLead(this)">
-        <div class="lead-row1">
-          <span class="lead-nick">小红薯69BCFDCA</span>
-          <span class="lead-time">04-29 20:06</span>
-        </div>
-        <div class="lead-uid">69bcbf76000000003402a05c</div>
-        <div class="lead-row2">
-          <span class="lead-portrait">高中家长，关注数学竞赛辅导</span>
-        </div>
-        <div class="lead-row2" style="margin-top:4px;">
-          <span class="lead-tag lead-tag-dm">私信</span>
-        </div>
-      </div>
-
-      <!-- 线索条目 8 -->
-      <div class="lead-item" onclick="selectLead(this)">
-        <div class="lead-row1">
-          <span class="lead-nick">小红薯69CDB878</span>
-          <span class="lead-time">04-27 19:40</span>
-        </div>
-        <div class="lead-uid">69ccd484000000003302101f</div>
-        <div class="lead-row2">
-          <span class="lead-portrait">初三家长，关注中考数学</span>
-        </div>
-        <div class="lead-row2" style="margin-top:4px;">
-          <span class="lead-tag lead-tag-dm">私信</span>
         </div>
       </div>
 
@@ -1275,6 +1181,184 @@ body {
       </div>
     </div>
 
+  <!-- 线索管理全屏页 -->
+  <div id="page-leads" style="display:none;flex:1;flex-direction:column;background:#f7f7f7;overflow:hidden;">
+
+    <!-- 筛选工具栏 -->
+    <div class="leads-toolbar">
+      <label>用户信息</label>
+      <input type="text" placeholder="请输入用户昵称 / ID" style="width:160px;" />
+      <label>留资方式</label>
+      <select style="width:90px;">
+        <option>不限</option>
+        <option>私信</option>
+        <option>评论</option>
+        <option>表单</option>
+      </select>
+      <label>进线时间</label>
+      <input type="date" value="2026-04-23" style="width:120px;" />
+      <span style="font-size:12px;color:#bbb;">至</span>
+      <input type="date" value="2026-04-30" style="width:120px;" />
+      <button class="tbar-btn">▼ 更多筛选</button>
+      <button class="tbar-export">↑ 导出数据</button>
+    </div>
+
+    <!-- 表格区 -->
+    <div class="leads-table-wrap">
+      <table class="leads-table">
+        <thead>
+          <tr>
+            <th>用户昵称</th>
+            <th>用户ID</th>
+            <th>客户画像</th>
+            <th>话术建议</th>
+            <th>归属账号</th>
+            <th>最新进线时间</th>
+            <th>最近开口时间</th>
+            <th>最近留资时间</th>
+            <th>电话</th>
+            <th>微信</th>
+            <th>留资方式</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><div class="lt-nick">小红薯69EB236F</div></td>
+            <td><div class="lt-uid">69e9e0460000000002002800</div></td>
+            <td><div class="lt-portrait">初中生家长，关注英语提分，价格敏感</div></td>
+            <td><div class="lt-suggest">主推试听课，强调名师1v1</div></td>
+            <td>测试账号A</td>
+            <td>2026-04-30 11:00</td>
+            <td>2026-04-30 11:00</td>
+            <td>2026-04-30 11:39</td>
+            <td>125****1012</td>
+            <td>xiaohe_2024</td>
+            <td><span class="lt-tag lt-tag-dm">私信</span></td>
+            <td><span class="lt-op">详情</span></td>
+          </tr>
+          <tr>
+            <td><div class="lt-nick">晨曦妈妈</div></td>
+            <td><div class="lt-uid">68ab12340000000001234567</div></td>
+            <td><div class="lt-portrait">小学二年级家长，关注英语启蒙</div></td>
+            <td><div class="lt-suggest">推英语启蒙绘本课，强调趣味性</div></td>
+            <td>测试账号A</td>
+            <td>2026-04-27 16:22</td>
+            <td>2026-04-27 16:22</td>
+            <td>2026-04-28 09:15</td>
+            <td>138****5678</td>
+            <td>chenxi_mom</td>
+            <td><span class="lt-tag lt-tag-dm">私信</span></td>
+            <td><span class="lt-op">详情</span></td>
+          </tr>
+          <tr>
+            <td><div class="lt-nick">阿俊爸爸</div></td>
+            <td><div class="lt-uid">70bc56780000000014030d4f</div></td>
+            <td><div class="lt-portrait">高二家长，关注化学竞赛</div></td>
+            <td><div class="lt-suggest">推竞赛培训营，强调省奖率</div></td>
+            <td>测试账号B</td>
+            <td>2026-04-26 10:20</td>
+            <td>2026-04-26 10:21</td>
+            <td>2026-04-27 08:00</td>
+            <td>139****9012</td>
+            <td>ajun_baba</td>
+            <td><span class="lt-tag lt-tag-form">表单</span></td>
+            <td><span class="lt-op">详情</span></td>
+          </tr>
+          <tr>
+            <td><div class="lt-nick">花花园艺</div></td>
+            <td><div class="lt-uid">65aa33210000000002805c9a</div></td>
+            <td><div class="lt-portrait">宝妈，关注亲子手工课</div></td>
+            <td><div class="lt-suggest">推亲子课体验包，限时拼团</div></td>
+            <td>测试账号A</td>
+            <td>2026-04-26 20:44</td>
+            <td>2026-04-26 20:44</td>
+            <td>2026-04-26 21:10</td>
+            <td class="lt-dim">—</td>
+            <td>huahua_2025</td>
+            <td><span class="lt-tag lt-tag-comment">评论</span></td>
+            <td><span class="lt-op">详情</span></td>
+          </tr>
+          <tr>
+            <td><div class="lt-nick">王小明</div></td>
+            <td><div class="lt-uid">71cd98760000000003401b2e</div></td>
+            <td><div class="lt-portrait">高一理科生，物理薄弱</div></td>
+            <td><div class="lt-suggest">推理综专项课，赠阶段性测评</div></td>
+            <td>测试账号B</td>
+            <td>2026-04-27 14:30</td>
+            <td>2026-04-27 14:31</td>
+            <td class="lt-dim">—</td>
+            <td class="lt-dim">—</td>
+            <td class="lt-dim">—</td>
+            <td><span class="lt-tag lt-tag-dm">私信</span></td>
+            <td><span class="lt-op">详情</span></td>
+          </tr>
+          <tr>
+            <td><div class="lt-nick">小红薯6979D266</div></td>
+            <td><div class="lt-uid">6979d234000000002400d731</div></td>
+            <td><div class="lt-portrait">小学生家长，关注语文阅读</div></td>
+            <td><div class="lt-suggest">推阅读提升专项课，送测评报告</div></td>
+            <td>测试账号A</td>
+            <td>2026-04-27 19:52</td>
+            <td>2026-04-27 19:52</td>
+            <td>2026-04-29 10:43</td>
+            <td class="lt-dim">—</td>
+            <td class="lt-dim">—</td>
+            <td><span class="lt-tag lt-tag-form">表单</span></td>
+            <td><span class="lt-op">详情</span></td>
+          </tr>
+          <tr>
+            <td><div class="lt-nick">小红薯69BCFDCA</div></td>
+            <td><div class="lt-uid">69bcbf76000000003402a05c</div></td>
+            <td><div class="lt-portrait">高中家长，关注数学竞赛辅导</div></td>
+            <td><div class="lt-suggest">发资料加微信，推竞赛班</div></td>
+            <td>测试账号B</td>
+            <td>2026-04-29 20:06</td>
+            <td>2026-04-29 20:07</td>
+            <td class="lt-dim">—</td>
+            <td class="lt-dim">—</td>
+            <td class="lt-dim">—</td>
+            <td><span class="lt-tag lt-tag-dm">私信</span></td>
+            <td><span class="lt-op">详情</span></td>
+          </tr>
+          <tr>
+            <td><div class="lt-nick">小红薯69CDB878</div></td>
+            <td><div class="lt-uid">69ccd484000000003302101f</div></td>
+            <td><div class="lt-portrait">初三家长，关注中考数学</div></td>
+            <td><div class="lt-suggest">推中考数学专题课，案例驱动</div></td>
+            <td>测试账号A</td>
+            <td>2026-04-27 19:40</td>
+            <td>2026-04-27 19:40</td>
+            <td class="lt-dim">—</td>
+            <td class="lt-dim">—</td>
+            <td class="lt-dim">—</td>
+            <td><span class="lt-tag lt-tag-dm">私信</span></td>
+            <td><span class="lt-op">详情</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 分页 -->
+    <div class="leads-pager">
+      <span>共 79 条，8 页</span>
+      <div class="pager-btns">
+        <button class="pager-btn">‹</button>
+        <button class="pager-btn active">1</button>
+        <button class="pager-btn">2</button>
+        <button class="pager-btn">3</button>
+        <button class="pager-btn">…</button>
+        <button class="pager-btn">8</button>
+        <button class="pager-btn">›</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span>跳至</span>
+        <input type="number" min="1" max="8" style="width:44px;height:28px;border:1px solid #e0e0e0;border-radius:4px;text-align:center;font-size:12px;outline:none;" />
+        <span>页</span>
+      </div>
+    </div>
+  </div>
+
   </div>
 
 <!-- 历史成交弹层 -->
@@ -1511,29 +1595,29 @@ function tog(id) {
   var scriptTA = document.getElementById('script-textarea');
   if (scriptTA) scriptTA.addEventListener('input', updateScriptCount);
 
-  // ── 左侧 tab 切换：当前会话 / 全部会话 / 线索管理 ──
-  function switchSessionTab(type, el) {
-    // 更新 tab 高亮
-    document.querySelectorAll('.sessions-tabs .stab').forEach(function(t) {
-      t.classList.remove('active');
-    });
-    el.classList.add('active');
-    // 切换列表区显示
-    var sessionList = document.getElementById('session-list-wrap');
-    var leadsList = document.getElementById('leads-list-wrap');
-    if (type === 'leads') {
-      sessionList.style.display = 'none';
-      leadsList.style.display = 'flex';
-    } else {
-      sessionList.style.display = '';
-      leadsList.style.display = 'none';
-    }
-  }
+  // ── 左侧主导航切换：私信对话 / 线索管理 ──
+  function switchMainPage(page) {
+    var chatEls = [
+      document.querySelector('.sessions'),
+      document.querySelector('.chat'),
+      document.querySelector('.sidebar')
+    ];
+    var leadsEl = document.getElementById('page-leads');
 
-  // 线索条目点击高亮
-  function selectLead(el) {
-    document.querySelectorAll('.lead-item').forEach(function(i) { i.classList.remove('active'); });
-    el.classList.add('active');
+    var navChat = document.getElementById('nav-chat');
+    var navLeads = document.getElementById('nav-leads');
+
+    if (page === 'leads') {
+      chatEls.forEach(function(el) { if (el) el.style.display = 'none'; });
+      leadsEl.style.display = 'flex';
+      navChat.classList.remove('active');
+      navLeads.classList.add('active');
+    } else {
+      chatEls.forEach(function(el) { if (el) el.style.display = ''; });
+      leadsEl.style.display = 'none';
+      navLeads.classList.remove('active');
+      navChat.classList.add('active');
+    }
   }
 
   // 问号 tooltip：用 fixed 定位跟随图标，避免被父容器裁剪
